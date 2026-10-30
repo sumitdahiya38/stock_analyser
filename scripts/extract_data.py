@@ -521,7 +521,12 @@ def main():
     with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(output_payload, f, indent=2, ensure_ascii=False)
 
-    print(f"\n[Success] Extracted and saved {len(extracted_stocks)} stocks data to {output_file}")
+    # Also save as JS fallback for direct file:// browser viewing
+    js_output_file = os.path.join(output_dir, 'stocks_data.js')
+    with open(js_output_file, 'w', encoding='utf-8') as f:
+        f.write('window.INITIAL_STOCKS_DATA = ' + json.dumps(output_payload, ensure_ascii=False) + ';')
+
+    print(f"\n[Success] Extracted and saved {len(extracted_stocks)} stocks data to {output_file} and {js_output_file}")
 
 if __name__ == '__main__':
     main()

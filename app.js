@@ -34,31 +34,44 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function initApp() {
+  let data = null;
+
+  // 1. Try fetching data/stocks_data.json (standard HTTP / GitHub Pages)
   try {
     const response = await fetch('data/stocks_data.json');
-    if (!response.ok) {
-      throw new Error(`Failed to load stocks_data.json: ${response.status}`);
+    if (response.ok) {
+      data = await response.json();
     }
-    const data = await response.json();
-    stockDataStore.indices = data.indices || {};
-    stockDataStore.stocks = data.stocks || [];
-    stockDataStore.lastUpdated = data.last_updated || new Date().toLocaleString();
-
-    // Calculate initial dynamic metrics
-    recalculateAllMetrics();
-
-    // Render components
-    renderIndices();
-    renderSectorPills();
-    renderMainViews();
-    renderManageList();
-
-    updateLastUpdatedText(stockDataStore.lastUpdated);
-    console.log(`Loaded ${stockDataStore.stocks.length} stocks successfully.`);
-  } catch (error) {
-    console.error('Initialization error:', error);
-    showNotification('Error loading stock data. Using cached fallback.', 'error');
+  } catch (err) {
+    console.warn('HTTP fetch failed (likely local file:// launch), falling back to window.INITIAL_STOCKS_DATA:', err.message);
   }
+
+  // 2. Fallback to preloaded script data (allows double-clicking index.html directly)
+  if (!data && window.INITIAL_STOCKS_DATA) {
+    data = window.INITIAL_STOCKS_DATA;
+  }
+
+  if (!data) {
+    console.error('No stock data could be loaded.');
+    showNotification('Error loading stock data.', 'error');
+    return;
+  }
+
+  stockDataStore.indices = data.indices || {};
+  stockDataStore.stocks = data.stocks || [];
+  stockDataStore.lastUpdated = data.last_updated || new Date().toLocaleString();
+
+  // Calculate initial dynamic metrics
+  recalculateAllMetrics();
+
+  // Render components
+  renderIndices();
+  renderSectorPills();
+  renderMainViews();
+  renderManageList();
+
+  updateLastUpdatedText(stockDataStore.lastUpdated);
+  console.log(`Loaded ${stockDataStore.stocks.length} stocks successfully.`);
 }
 
 /**
@@ -1182,3 +1195,4 @@ function formatNumber(num, decimals = 2) {
 function showNotification(message, type = 'info') {
   console.log(`[Notification ${type}]: ${message}`);
 }
+

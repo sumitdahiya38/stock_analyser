@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EquiPulse | Live Stock Fundamentals & Multi-Share Analyzer</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              900: '#1e3a8a',
+            },
+            darkBg: '#0a0f1d',
+            darkCard: '#131d2e',
+            darkBorder: '#223045',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-[#0a0f1d] text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
+
+  <!-- Top Sticky Header -->
+  <header class="sticky top-0 z-40 bg-[#0c1424]/90 backdrop-blur-md border-b border-[#223045] shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Top Bar: Logo & Indices -->
+      <div class="py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        
+        <!-- Logo & Title -->
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-teal-400 flex items-center justify-center shadow-lg shadow-blue-500/20">
+            <i class="fa-solid fa-chart-line text-white text-lg"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                Equi<span class="text-blue-400">Pulse</span>
+              </h1>
+              <span class="text-[10px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                GitHub Pages Ready
+              </span>
+            </div>
+            <p class="text-xs text-slate-400">Fundamental & Valuation Multi-Share Dashboard</p>
+          </div>
+        </div>
+
+        <!-- Market Indices (NIFTY 50 & DOW JONES) -->
+        <div class="flex flex-wrap items-center gap-3">
+          
+          <!-- NIFTY 50 Ticker -->
+          <div id="niftyCard" class="flex items-center gap-3 px-3 py-1.5 rounded-lg bg-[#142033] border border-[#23354d] shadow-sm">
+            <div class="flex flex-col">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                <span class="pulse-dot"></span> NIFTY 50
+              </span>
+              <span id="niftyPrice" class="text-sm font-extrabold text-white">23,053.10</span>
+            </div>
+            <div class="text-right flex flex-col">
+              <span id="niftyChange" class="text-xs font-bold text-emerald-400 flex items-center gap-0.5">
+                <i class="fa-solid fa-arrow-trend-up text-[10px]"></i> +354.30
+              </span>
+              <span id="niftyPct" class="text-[10px] font-semibold text-emerald-400/90">(+1.56%)</span>
+            </div>
+          </div>
+
+          <!-- DOW JONES Ticker -->
+          <div id="dowCard" class="flex items-center gap-3 px-3 py-1.5 rounded-lg bg-[#142033] border border-[#23354d] shadow-sm">
+            <div class="flex flex-col">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-blue-400"></span> DOW JONES
+              </span>
+              <span id="dowPrice" class="text-sm font-extrabold text-white">51,613.99</span>
+            </div>
+            <div class="text-right flex flex-col">
+              <span id="dowChange" class="text-xs font-bold text-rose-400 flex items-center gap-0.5">
+                <i class="fa-solid fa-arrow-trend-down text-[10px]"></i> -728.57
+              </span>
+              <span id="dowPct" class="text-[10px] font-semibold text-rose-400/90">(-1.39%)</span>
+            </div>
+          </div>
+
+          <!-- Refresh & Status Button -->
+          <button id="refreshBtn" onclick="refreshLiveData()" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs shadow-md shadow-blue-600/20 transition-all active:scale-95">
+            <i id="refreshIcon" class="fa-solid fa-arrows-rotate"></i>
+            <span>Refresh Live Data</span>
+          </button>
+
+          <!-- Manage Stocks Button -->
+          <button onclick="openManageModal()" class="px-3 py-2 rounded-lg bg-[#1a263a] hover:bg-[#22324d] text-slate-300 hover:text-white font-medium text-xs border border-[#2d3f58] transition-all">
+            <i class="fa-solid fa-sliders mr-1.5"></i> Stocks List
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- Realtime Status Banner -->
+      <div class="pb-2.5 pt-1 flex flex-wrap items-center justify-between text-xs text-slate-400 border-t border-[#1c293d]">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-1.5 text-slate-300">
+            <i class="fa-solid fa-calculator text-blue-400"></i>
+            <span>P/E Dynamic Logic: <strong class="text-white font-semibold">CMP ÷ TTM EPS</strong></span>
+          </span>
+          <span class="text-slate-600">•</span>
+          <span id="lastUpdatedText" class="text-slate-400">Data as of: Just Now</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <label class="flex items-center gap-1.5 cursor-pointer select-none">
+            <input type="checkbox" id="autoRefreshToggle" class="rounded bg-[#1b273a] border-slate-700 text-blue-600 focus:ring-0">
+            <span class="text-[11px] text-slate-300">Auto-refresh (60s)</span>
+          </label>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Main Dashboard Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- Control Bar: Search, Sector Filters & Multi-View Switcher -->
+    <div class="glass-panel p-4 rounded-2xl flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+      
+      <!-- Search & Filters -->
+      <div class="flex flex-wrap items-center gap-3 flex-1">
+        
+        <!-- Search Input -->
+        <div class="relative min-w-[200px] flex-1 max-w-xs">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+          <input 
+            type="text" 
+            id="searchInput" 
+            oninput="handleSearch(this.value)" 
+            placeholder="Search stock by name or ticker..." 
+            class="w-full pl-9 pr-3 py-2 rounded-xl bg-[#0f172a] border border-[#223147] text-white placeholder-slate-500 text-xs focus:outline-none focus:border-blue-500 transition-colors"
+          >
+        </div>
+
+        <!-- Sector Pills -->
+        <div id="sectorPills" class="flex flex-wrap items-center gap-1.5">
+          <!-- Populated by JS -->
+        </div>
+
+      </div>
+
+      <!-- View Switcher (View 5-10 stocks in one go) -->
+      <div class="flex items-center gap-1.5 bg-[#0e1626] p-1 rounded-xl border border-[#223147] self-start md:self-auto">
+        <button 
+          id="btnGridView" 
+          onclick="setViewMode('grid')" 
+          class="px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all bg-blue-600 text-white shadow-sm"
+        >
+          <i class="fa-solid fa-grip"></i>
+          <span>Multi-Card (All)</span>
+        </button>
+        <button 
+          id="btnTableView" 
+          onclick="setViewMode('table')" 
+          class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white flex items-center gap-1.5 transition-all"
+        >
+          <i class="fa-solid fa-table-list"></i>
+          <span>Master Table</span>
+        </button>
+        <button 
+          id="btnCompareView" 
+          onclick="setViewMode('compare')" 
+          class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white flex items-center gap-1.5 transition-all"
+        >
+          <i class="fa-solid fa-columns"></i>
+          <span>Side-by-Side</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Multi-Stock Cards View (Default: All 5-10 shares in one go) -->
+    <div id="stocksGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-5">
+      <!-- Injected by JavaScript -->
+    </div>
+
+    <!-- Master Comparative Table View -->
+    <div id="stocksTableContainer" class="hidden glass-panel rounded-2xl overflow-hidden border border-[#223147]">
+      <div class="p-4 bg-[#111a2c] border-b border-[#223147] flex items-center justify-between">
+        <div>
+          <h2 class="text-sm font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-table-columns text-blue-400"></i>
+            Master Comparison Matrix (View 5-10 Stocks at a Glance)
+          </h2>
+          <p class="text-xs text-slate-400">Click on any column header to sort ascending/descending</p>
+        </div>
+        <span id="tableCountBadge" class="text-xs px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 font-semibold border border-blue-500/20">
+          10 Stocks
+        </span>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left finance-table">
+          <thead>
+            <tr>
+              <th onclick="sortTable('name')" class="cursor-pointer hover:text-white">Stock / Symbol <i class="fa-solid fa-sort ml-1 text-[10px]"></i></th>
+              <th onclick="sortTable('current_price')" class="cursor-pointer hover:text-white text-right">CMP (₹) <i class="fa-solid fa-sort ml-1 text-[10px]"></i></th>
+              <th onclick="sortTable('change_percent')" class="cursor-pointer hover:text-white text-right">1D % <i class="fa-solid fa-sort ml-1 text-[10px]"></i></th>
+              <th onclick="sortTable('pe')" class="cursor-pointer hover:text-white text-right">Live P/E <i class="fa-solid fa-sort ml-1 text-[10px]"></i></th>
+              <th onclick="sortTable('sector_pe')" class="cursor-pointer hover:text-white text-right">Sector P/E <i class="fa-solid fa-sort ml-1 text-[10px]"></i></th>
+              <th onclick="sortTable('roce')" class="cursor-pointer hover:text-white text-right">ROCE % <i class="fa-solid fa-sort ml-1 text-[10px]"></i></th>
+              <th onclick="sortTable('roe')" class="cursor-pointer hover:text-white text-right">ROE % <i class="fa-solid fa-sort ml-1 text-[10px]"></i></th>
+              <th class="text-center">1Y Range (L - H)</th>
+              <th class="text-center">5Y Range (L - H)</th>
+              <th onclick="sortTable('latest_debt_to_equity')" class="cursor-pointer hover:text-white text-right">Debt/Eq <i class="fa-solid fa-sort ml-1 text-[10px]"></i></th>
+              <th onclick="sortTable('latest_promoters')" class="cursor-pointer hover:text-white text-right">Promoter % <i class="fa-solid fa-sort ml-1 text-[10px]"></i></th>
+              <th class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody id="stocksTableBody">
+            <!-- Injected by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Side-by-Side Comparison View -->
+    <div id="stocksCompareContainer" class="hidden space-y-4">
+      <div class="glass-panel p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h2 class="text-sm font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-scale-balanced text-teal-400"></i>
+            Head-to-Head Stock Comparator
+          </h2>
+          <p class="text-xs text-slate-400">Select 2 to 4 stocks below to compare their complete financials side-by-side</p>
+        </div>
+        <div id="compareCheckboxes" class="flex flex-wrap items-center gap-2">
+          <!-- Stock selector pills injected by JS -->
+        </div>
+      </div>
+
+      <div id="compareCardsMatrix" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <!-- Comparative columns injected by JS -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Deep Dive Detailed Modal -->
+  <div id="detailModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
+    <div class="glass-panel bg-[#0d1626] border border-[#2b3a50] rounded-2xl max-w-5xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden my-auto">
+      
+      <!-- Modal Header -->
+      <div class="p-5 border-b border-[#223147] flex items-start justify-between bg-[#121c2e]">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-lg" id="modalLogo">
+            REL
+          </div>
+          <div>
+            <div class="flex items-center gap-3">
+              <h2 id="modalStockName" class="text-xl font-bold text-white">Reliance Industries Ltd</h2>
+              <span id="modalTickerBadge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                RELIANCE
+              </span>
+              <span id="modalSectorBadge" class="text-xs text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700">
+                Energy
+              </span>
+            </div>
+            <div class="flex items-baseline gap-3 mt-1">
+              <span id="modalPrice" class="text-2xl font-black text-white">₹1,165.00</span>
+              <span id="modalChangeBadge" class="text-xs font-bold text-emerald-400 flex items-center gap-1">
+                +12.40 (+1.08%)
+              </span>
+              <span class="text-xs text-slate-400">| TTM EPS: <strong id="modalTtmEps" class="text-white">₹60.68</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="closeDetailModal()" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-colors">
+          <i class="fa-solid fa-xmark text-base"></i>
+        </button>
+      </div>
+
+      <!-- Quick Metrics Bar -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 p-3 bg-[#0a101d] border-b border-[#1c293d] text-center text-xs">
+        <div class="p-2 rounded-lg bg-[#111a29]">
+          <span class="text-slate-400 block text-[10px] uppercase font-bold">Live P/E</span>
+          <span id="modalStatPE" class="text-sm font-bold text-blue-400">19.20</span>
+        </div>
+        <div class="p-2 rounded-lg bg-[#111a29]">
+          <span class="text-slate-400 block text-[10px] uppercase font-bold">Sector P/E</span>
+          <span id="modalStatSectorPE" class="text-sm font-bold text-slate-300">43.56</span>
+        </div>
+        <div class="p-2 rounded-lg bg-[#111a29]">
+          <span class="text-slate-400 block text-[10px] uppercase font-bold">ROCE</span>
+          <span id="modalStatROCE" class="text-sm font-bold text-emerald-400">10.30%</span>
+        </div>
+        <div class="p-2 rounded-lg bg-[#111a29]">
+          <span class="text-slate-400 block text-[10px] uppercase font-bold">ROE</span>
+          <span id="modalStatROE" class="text-sm font-bold text-teal-400">8.91%</span>
+        </div>
+        <div class="p-2 rounded-lg bg-[#111a29]">
+          <span class="text-slate-400 block text-[10px] uppercase font-bold">1Y Range</span>
+          <span id="modalStat1YRange" class="text-[11px] font-semibold text-slate-300">₹1,152 - 1,612</span>
+        </div>
+        <div class="p-2 rounded-lg bg-[#111a29]">
+          <span class="text-slate-400 block text-[10px] uppercase font-bold">5Y Range</span>
+          <span id="modalStat5YRange" class="text-[11px] font-semibold text-slate-300">₹864 - 2,015</span>
+        </div>
+        <div class="p-2 rounded-lg bg-[#111a29]">
+          <span class="text-slate-400 block text-[10px] uppercase font-bold">Debt / Equity</span>
+          <span id="modalStatD2E" class="text-sm font-bold text-amber-400">0.43</span>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="flex items-center gap-1 px-4 border-b border-[#223147] bg-[#0f1726] overflow-x-auto">
+        <button onclick="setModalTab('quarterly')" id="tabBtnQuarterly" class="tab-btn active px-4 py-3 text-xs font-semibold whitespace-nowrap">
+          <i class="fa-solid fa-chart-simple mr-1.5"></i> 5 Quarterly Profits
+        </button>
+        <button onclick="setModalTab('yearly')" id="tabBtnYearly" class="tab-btn px-4 py-3 text-xs font-semibold text-slate-400 hover:text-white whitespace-nowrap">
+          <i class="fa-solid fa-calendar mr-1.5"></i> 5 Yearly Profits
+        </button>
+        <button onclick="setModalTab('balance')" id="tabBtnBalance" class="tab-btn px-4 py-3 text-xs font-semibold text-slate-400 hover:text-white whitespace-nowrap">
+          <i class="fa-solid fa-vault mr-1.5"></i> Reserves & Borrowings
+        </button>
+        <button onclick="setModalTab('shareholding')" id="tabBtnShareholding" class="tab-btn px-4 py-3 text-xs font-semibold text-slate-400 hover:text-white whitespace-nowrap">
+          <i class="fa-solid fa-pie-chart mr-1.5"></i> Shareholding Pattern
+        </button>
+        <button onclick="setModalTab('pe_sandbox')" id="tabBtnPESandbox" class="tab-btn px-4 py-3 text-xs font-semibold text-slate-400 hover:text-white whitespace-nowrap">
+          <i class="fa-solid fa-sliders mr-1.5"></i> Live P/E Calculator
+        </button>
+      </div>
+
+      <!-- Modal Body Content -->
+      <div class="p-6 overflow-y-auto flex-1 space-y-6">
+
+        <!-- Tab 1: Quarterly Profits -->
+        <div id="tabContentQuarterly" class="space-y-5">
+          <div class="glass-panel p-4 rounded-xl">
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Last 5 Quarters Profit Trajectory (₹ in Crores)</h3>
+            <div class="h-64">
+              <canvas id="quarterlyChart"></canvas>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-[#223147]">
+            <table class="w-full text-left finance-table">
+              <thead>
+                <tr>
+                  <th>Quarter</th>
+                  <th class="text-right">Sales / Revenue (Cr)</th>
+                  <th class="text-right">Operating Profit (Cr)</th>
+                  <th class="text-right">OPM %</th>
+                  <th class="text-right">Net Profit (Cr)</th>
+                  <th class="text-right">Quarter EPS (₹)</th>
+                </tr>
+              </thead>
+              <tbody id="quarterlyTableBody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab 2: Yearly Profits -->
+        <div id="tabContentYearly" class="hidden space-y-5">
+          <div class="glass-panel p-4 rounded-xl">
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Last 5 Years Annual Profit Trend (₹ in Crores)</h3>
+            <div class="h-64">
+              <canvas id="yearlyChart"></canvas>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-[#223147]">
+            <table class="w-full text-left finance-table">
+              <thead>
+                <tr>
+                  <th>Year / Period</th>
+                  <th class="text-right">Sales (Cr)</th>
+                  <th class="text-right">Operating Profit (Cr)</th>
+                  <th class="text-right">OPM %</th>
+                  <th class="text-right">Net Profit (Cr)</th>
+                  <th class="text-right">Annual EPS (₹)</th>
+                </tr>
+              </thead>
+              <tbody id="yearlyTableBody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab 3: Reserves & Borrowings -->
+        <div id="tabContentBalance" class="hidden space-y-5">
+          <div class="glass-panel p-4 rounded-xl">
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Balance Sheet Trend: Reserves vs Borrowings (₹ in Crores)</h3>
+            <div class="h-64">
+              <canvas id="balanceChart"></canvas>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-[#223147]">
+            <table class="w-full text-left finance-table">
+              <thead>
+                <tr>
+                  <th>Period</th>
+                  <th class="text-right">Equity Capital (Cr)</th>
+                  <th class="text-right text-emerald-400">Reserves (Cr)</th>
+                  <th class="text-right text-rose-400">Borrowings (Cr)</th>
+                  <th class="text-right">Net Worth (Cr)</th>
+                  <th class="text-right">Debt / Equity</th>
+                </tr>
+              </thead>
+              <tbody id="balanceTableBody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab 4: Shareholding Pattern -->
+        <div id="tabContentShareholding" class="hidden space-y-5">
+          <div class="glass-panel p-4 rounded-xl">
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Shareholding Breakdown (Last 5-10 Quarters)</h3>
+            <div class="h-64">
+              <canvas id="shareholdingChart"></canvas>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-[#223147]">
+            <table class="w-full text-left finance-table">
+              <thead>
+                <tr>
+                  <th>Quarter</th>
+                  <th class="text-right text-blue-400">Promoters %</th>
+                  <th class="text-right text-teal-400">FIIs %</th>
+                  <th class="text-right text-purple-400">DIIs %</th>
+                  <th class="text-right text-amber-400">Public %</th>
+                  <th class="text-right">No. of Shareholders</th>
+                </tr>
+              </thead>
+              <tbody id="shareholdingTableBody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab 5: Interactive P/E Valuation Sandbox -->
+        <div id="tabContentPESandbox" class="hidden space-y-5">
+          <div class="glass-panel p-5 rounded-xl border border-blue-500/20 space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                  <i class="fa-solid fa-microchip text-blue-400"></i>
+                  Live P/E Recalculation Engine & Valuation Simulator
+                </h3>
+                <p class="text-xs text-slate-400 mt-0.5">Drag the price slider to see in real-time how the P/E ratio and valuation discount dynamically update!</p>
+              </div>
+              <button onclick="resetPESimulator()" class="text-xs px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300">
+                Reset to Current CMP
+              </button>
+            </div>
+
+            <!-- Price Slider -->
+            <div class="space-y-2 pt-2">
+              <div class="flex justify-between text-xs font-semibold">
+                <span class="text-slate-400">Hypothetical Share Price:</span>
+                <span id="sandboxPriceDisplay" class="text-base font-extrabold text-blue-400">₹1,165.00</span>
+              </div>
+              <input 
+                type="range" 
+                id="sandboxPriceSlider" 
+                oninput="updatePESimulation(parseFloat(this.value))" 
+                class="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+              >
+              <div class="flex justify-between text-[10px] text-slate-500 font-medium">
+                <span id="sliderMinLabel">₹500</span>
+                <span>Current: <strong id="sliderCurrentLabel" class="text-slate-300">₹1,165</strong></span>
+                <span id="sliderMaxLabel">₹2,500</span>
+              </div>
+            </div>
+
+            <!-- Formula Breakdown Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+              <div class="p-3 rounded-lg bg-[#0c1424] border border-[#223147] text-center">
+                <span class="text-[10px] text-slate-400 uppercase font-bold block">Simulated P/E</span>
+                <span id="sandboxCalculatedPE" class="text-xl font-extrabold text-white">19.20</span>
+                <span class="text-[10px] text-slate-500 block mt-0.5">Price ÷ ₹<span id="sandboxEpsVal">60.68</span> EPS</span>
+              </div>
+
+              <div class="p-3 rounded-lg bg-[#0c1424] border border-[#223147] text-center">
+                <span class="text-[10px] text-slate-400 uppercase font-bold block">Sector P/E Benchmark</span>
+                <span id="sandboxSectorPE" class="text-xl font-extrabold text-slate-300">43.56</span>
+                <span class="text-[10px] text-slate-500 block mt-0.5">Industry Median</span>
+              </div>
+
+              <div class="p-3 rounded-lg bg-[#0c1424] border border-[#223147] text-center">
+                <span class="text-[10px] text-slate-400 uppercase font-bold block">Valuation Status</span>
+                <span id="sandboxValuationBadge" class="text-sm font-bold text-emerald-400 block mt-1">Undervalued by 56%</span>
+                <span class="text-[10px] text-slate-500 block mt-0.5">vs Sector P/E</span>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-lg bg-blue-900/10 border border-blue-500/20 text-xs text-blue-200">
+              <i class="fa-solid fa-circle-info mr-1 text-blue-400"></i>
+              <strong>Valuation Target Note:</strong> If this stock traded at the Sector P/E of <span id="sandboxSectorNote">43.56</span>, its fair value would be <strong id="sandboxFairValue" class="text-emerald-400">₹2,643.22</strong>.
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Manage Stocks Modal -->
+  <div id="manageModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-panel bg-[#0d1626] border border-[#2b3a50] rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-[#223147] pb-3">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-list-check text-blue-400"></i>
+          Tracked Stocks Configuration
+        </h3>
+        <button onclick="closeManageModal()" class="text-slate-400 hover:text-white">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <p class="text-xs text-slate-400">
+        The stocks displayed on this website are loaded from the static file <code class="text-blue-300 bg-slate-800 px-1.5 py-0.5 rounded">stocks_list.json</code>. You can add or modify stocks in this file anytime.
+      </p>
+
+      <div class="max-h-60 overflow-y-auto rounded-xl border border-[#223147] bg-[#09101c] p-3">
+        <div id="manageStocksList" class="space-y-2">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div class="p-3 rounded-xl bg-[#131d2e] border border-[#223147] text-xs text-slate-300 space-y-2">
+        <div class="font-bold text-white flex items-center gap-1.5">
+          <i class="fa-solid fa-terminal text-blue-400"></i>
+          How to update stock data & deploy to GitHub Pages:
+        </div>
+        <ol class="list-decimal list-inside space-y-1 text-slate-400">
+          <li>Edit <code class="text-blue-300">stocks_list.json</code> to add your desired stocks.</li>
+          <li>Run <code class="text-blue-300">python3 scripts/extract_data.py</code> to fetch full latest fundamentals.</li>
+          <li>Push to GitHub! The GitHub Actions workflow will automatically deploy to GitHub Pages.</li>
+        </ol>
+      </div>
+
+      <div class="flex justify-end pt-2">
+        <button onclick="closeManageModal()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold">
+          Got It
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

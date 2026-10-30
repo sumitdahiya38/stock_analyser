@@ -1,0 +1,57 @@
+name: Deploy Stock Analyzer to GitHub Pages
+
+on:
+  push:
+    branches: [ main, master ]
+  schedule:
+    # Run every Monday through Friday at 10:00 UTC (3:30 PM IST - Market Close)
+    - cron: '0 10 * * 1-5'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  update-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Extract Latest Stock & Index Data
+        run: |
+          python scripts/extract_data.py
+
+      - name: Commit and Push Updated Data (if changed)
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action Data Updater"
+          git add data/stocks_data.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update latest stock fundamentals & prices [skip ci]" && git push)
+        continue-on-error: true
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

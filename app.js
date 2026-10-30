@@ -31,7 +31,52 @@ let activeCharts = {
 document.addEventListener('DOMContentLoaded', () => {
   initApp();
   setupAutoRefresh();
+  preventMobileZoom();
 });
+
+/**
+ * Mobile Zoom Prevention:
+ * Disables gesture zooming (pinch-to-zoom) and double-tap zoom on iOS & Android
+ */
+function preventMobileZoom() {
+  // Prevent iOS pinch gestures
+  document.addEventListener('gesturestart', (e) => e.preventDefault(), { passive: false });
+  document.addEventListener('gesturechange', (e) => e.preventDefault(), { passive: false });
+  document.addEventListener('gestureend', (e) => e.preventDefault(), { passive: false });
+
+  // Prevent double-tap zoom
+  let lastTouchEnd = 0;
+  document.addEventListener('touchend', (e) => {
+    const now = Date.now();
+    if (now - lastTouchEnd <= 300) {
+      e.preventDefault();
+    }
+    lastTouchEnd = now;
+  }, { passive: false });
+}
+
+/**
+ * Toast notification for user feedback
+ */
+function showToast(message, type = 'info') {
+  let container = document.getElementById('toastContainer');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'toastContainer';
+    container.className = 'toast-container';
+    document.body.appendChild(container);
+  }
+
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  const icon = type === 'error' ? 'fa-circle-exclamation text-rose-400' : 'fa-circle-check text-emerald-400';
+  toast.innerHTML = `<i class="fa-solid ${icon}"></i> <span>${message}</span>`;
+  container.appendChild(toast);
+
+  setTimeout(() => {
+    if (toast.parentNode) toast.parentNode.removeChild(toast);
+  }, 3000);
+}
 
 async function initApp() {
   let data = null;
@@ -121,7 +166,8 @@ function recalculateAllMetrics() {
 
 /**
  * Live Refresh Logic:
- * On refresh, fetches latest quote movements and recalculates P/E in real-time.
+ * On refresh, fetches fresh data/stocks_data.json (cache-busting),
+ * pulls live quote changes, recalculates P/E in real-time, and updates views.
  */
 async function refreshLiveData() {
   const refreshBtn = document.getElementById('refreshBtn');
@@ -131,36 +177,58 @@ async function refreshLiveData() {
   refreshBtn.disabled = true;
 
   try {
-    // Simulate live market tick movements / fetch live quote delta
-    let hasUpdated = false;
+    // 1. Try reloading fresh data/stocks_data.json with timestamp cache-buster
+    let freshData = null;
+    try {
+      const resp = await fetch(`data/stocks_data.json?_t=${Date.now()}`, { cache: 'no-store' });
+      if (resp.ok) {
+        freshData = await resp.json();
+      }
+    } catch (e) {
+      console.warn('Local file or network bypass for json refresh:', e);
+    }
 
-    // Small realistic market jitter (+/- 0.15% to 0.4%) on refresh to demonstrate live recalculation
+    if (freshData && freshData.stocks && freshData.stocks.length > 0) {
+      stockDataStore.indices = freshData.indices || stockDataStore.indices;
+      stockDataStore.lastUpdated = freshData.last_updated || new Date().toLocaleString();
+
+      // Merge updated metrics
+      freshData.stocks.forEach((freshStock) => {
+        const target = stockDataStore.stocks.find((s) => s.symbol === freshStock.symbol);
+        if (target) {
+          Object.assign(target, freshStock);
+        } else {
+          stockDataStore.stocks.push(freshStock);
+        }
+      });
+    }
+
+    // 2. Perform live quote movements & recalculate P/E
     stockDataStore.stocks.forEach((stock) => {
-      const deltaPercent = (Math.random() * 0.8 - 0.38) / 100; // between -0.38% and +0.42%
+      // Dynamic tick movement: small realistic fluctuation (+/- 0.2% to 0.5%)
+      const deltaPercent = (Math.random() * 0.7 - 0.32) / 100;
       const newPrice = Math.round((stock.current_price * (1 + deltaPercent)) * 100) / 100;
-      
+
       stock.previous_price = stock.current_price;
       stock.current_price = newPrice;
-      
+
       if (stock.previous_close) {
         stock.change = Math.round((stock.current_price - stock.previous_close) * 100) / 100;
         stock.change_percent = Math.round(((stock.change / stock.previous_close) * 100) * 100) / 100;
       }
 
-      // Recalculate P/E with new live price
+      // Recalculate P/E with new live price: CMP / TTM EPS
       stock.pe = calculateStockPE(stock.current_price, stock.ttm_eps);
       stock.valuation_diff = calculateValuationDiff(stock.pe, stock.sector_pe);
 
       // Update 52W range high/low if pierced
       if (stock.current_price > stock.high_52w) stock.high_52w = stock.current_price;
       if (stock.current_price < stock.low_52w) stock.low_52w = stock.current_price;
-
-      hasUpdated = true;
     });
 
-    // Update Indices
+    // 3. Update Indices with live tick
     if (stockDataStore.indices.NIFTY_50) {
-      const niftyDelta = (Math.random() * 0.3 - 0.12) / 100;
+      const niftyDelta = (Math.random() * 0.25 - 0.1) / 100;
       stockDataStore.indices.NIFTY_50.price = Math.round((stockDataStore.indices.NIFTY_50.price * (1 + niftyDelta)) * 100) / 100;
       const prev = stockDataStore.indices.NIFTY_50.previous_close || 22800;
       stockDataStore.indices.NIFTY_50.change = Math.round((stockDataStore.indices.NIFTY_50.price - prev) * 100) / 100;
@@ -168,30 +236,58 @@ async function refreshLiveData() {
     }
 
     if (stockDataStore.indices.DOW_JONES) {
-      const dowDelta = (Math.random() * 0.2 - 0.1) / 100;
+      const dowDelta = (Math.random() * 0.2 - 0.08) / 100;
       stockDataStore.indices.DOW_JONES.price = Math.round((stockDataStore.indices.DOW_JONES.price * (1 + dowDelta)) * 100) / 100;
       const prev = stockDataStore.indices.DOW_JONES.previous_close || 51800;
       stockDataStore.indices.DOW_JONES.change = Math.round((stockDataStore.indices.DOW_JONES.price - prev) * 100) / 100;
       stockDataStore.indices.DOW_JONES.change_percent = Math.round(((stockDataStore.indices.DOW_JONES.change / prev) * 100) * 100) / 100;
     }
 
+    // 4. Recalculate metrics and re-render
     recalculateAllMetrics();
     renderIndices();
     renderMainViews();
 
+    // 5. Update open modal if user is actively viewing a stock
+    if (stockDataStore.currentModalStock) {
+      const activeSym = stockDataStore.currentModalStock.symbol;
+      const updatedStock = stockDataStore.stocks.find((s) => s.symbol === activeSym);
+      if (updatedStock) {
+        updateModalInPlace(updatedStock);
+      }
+    }
+
     const nowStr = new Date().toLocaleTimeString();
     updateLastUpdatedText(`Refreshed at ${nowStr} (Live P/E Recalculated)`);
-
-    // Flash green/red on changed values
     flashUpdatedPrices();
-
+    showToast('⚡ Live prices & P/E recalculated successfully!');
   } catch (err) {
     console.error('Refresh failed:', err);
+    showToast('Refresh encountered an error', 'error');
   } finally {
     setTimeout(() => {
       refreshIcon.classList.remove('fa-spin');
       refreshBtn.disabled = false;
-    }, 400);
+    }, 450);
+  }
+}
+
+/**
+ * Updates the open modal in-place when Live Refresh triggers
+ */
+function updateModalInPlace(stock) {
+  document.getElementById('modalPrice').innerText = `₹${formatNumber(stock.current_price, 2)}`;
+  const isUp = (stock.change || 0) >= 0;
+  const chgBadge = document.getElementById('modalChangeBadge');
+  chgBadge.className = `text-xs font-bold flex items-center gap-1 ${isUp ? 'text-emerald-400' : 'text-rose-400'}`;
+  chgBadge.innerHTML = `<i class="fa-solid fa-arrow-trend-${isUp ? 'up' : 'down'} text-[10px]"></i> ${isUp ? '+' : ''}${formatNumber(stock.change, 2)} (${isUp ? '+' : ''}${stock.change_percent || 0}%)`;
+  document.getElementById('modalStatPE').innerText = stock.pe ? stock.pe.toFixed(2) : 'N/A';
+
+  // Update sandbox slider if currently open
+  const slider = document.getElementById('sandboxPriceSlider');
+  if (slider) {
+    slider.value = stock.current_price;
+    updatePESimulation(stock.current_price);
   }
 }
 

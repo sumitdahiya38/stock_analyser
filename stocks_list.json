@@ -1,62 +1,56 @@
 [
   {
-    "symbol": "RELIANCE",
-    "yahoo_symbol": "RELIANCE.NS",
-    "name": "Reliance Industries Ltd",
-    "sector": "Energy & Petrochemicals"
+    "symbol": "STEELCAS",
+    "display_symbol": "SteelCas",
+    "yahoo_symbol": "STEELCAS.NS",
+    "name": "Steelcast Ltd",
+    "sector": "Industrial Castings & Engineering",
+    "url_type": "standalone"
   },
   {
-    "symbol": "TCS",
-    "yahoo_symbol": "TCS.NS",
-    "name": "Tata Consultancy Services",
-    "sector": "IT Services"
+    "symbol": "DDEVPLSTIK",
+    "display_symbol": "DDevpastik",
+    "yahoo_symbol": "DDEVPLSTIK.NS",
+    "name": "DDev Plastiks Industries Ltd",
+    "sector": "Plastics & Polymers",
+    "url_type": "standalone"
   },
   {
-    "symbol": "HDFCBANK",
-    "yahoo_symbol": "HDFCBANK.NS",
-    "name": "HDFC Bank Ltd",
-    "sector": "Private Banking"
+    "symbol": "EXIDEIND",
+    "display_symbol": "Exideind",
+    "yahoo_symbol": "EXIDEIND.NS",
+    "name": "Exide Industries Ltd",
+    "sector": "Auto Components & Batteries"
   },
   {
-    "symbol": "INFY",
-    "yahoo_symbol": "INFY.NS",
-    "name": "Infosys Ltd",
-    "sector": "IT Services"
+    "symbol": "VOLTAMP",
+    "display_symbol": "Voltamp",
+    "yahoo_symbol": "VOLTAMP.NS",
+    "name": "Voltamp Transformers Ltd",
+    "sector": "Heavy Electrical Equipment",
+    "url_type": "standalone"
   },
   {
-    "symbol": "ICICIBANK",
-    "yahoo_symbol": "ICICIBANK.NS",
-    "name": "ICICI Bank Ltd",
-    "sector": "Private Banking"
+    "symbol": "SHANTIGOLD",
+    "display_symbol": "Shantigold",
+    "yahoo_symbol": "SHANTIGOLD.BO",
+    "name": "Shanti Gold International Ltd",
+    "sector": "Gems & Jewellery",
+    "url_type": "standalone"
   },
   {
-    "symbol": "BHARTIARTL",
-    "yahoo_symbol": "BHARTIARTL.NS",
-    "name": "Bharti Airtel Ltd",
-    "sector": "Telecommunications"
+    "symbol": "TAC",
+    "display_symbol": "tac-st",
+    "yahoo_symbol": "TAC.NS",
+    "name": "TAC Security (TAC Infosec Ltd)",
+    "sector": "Cybersecurity & IT"
   },
   {
-    "symbol": "ITC",
-    "yahoo_symbol": "ITC.NS",
-    "name": "ITC Ltd",
-    "sector": "FMCG & Consumer Goods"
-  },
-  {
-    "symbol": "SBIN",
-    "yahoo_symbol": "SBIN.NS",
-    "name": "State Bank of India",
-    "sector": "Public Banking"
-  },
-  {
-    "symbol": "LT",
-    "yahoo_symbol": "LT.NS",
-    "name": "Larsen & Toubro Ltd",
-    "sector": "Engineering & Construction"
-  },
-  {
-    "symbol": "MARUTI",
-    "yahoo_symbol": "MARUTI.NS",
-    "name": "Maruti Suzuki India Ltd",
-    "sector": "Automobile"
+    "symbol": "SATTRIX",
+    "screener_symbol": "544189",
+    "display_symbol": "sattrix",
+    "yahoo_symbol": "SATTRIX.BO",
+    "name": "Sattrix Information Security Ltd",
+    "sector": "Cybersecurity & IT Services"
   }
 ]

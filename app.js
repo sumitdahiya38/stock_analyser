@@ -13,7 +13,7 @@ let stockDataStore = {
   activeSector: 'ALL',
   searchQuery: '',
   viewMode: 'grid', // 'grid', 'table', 'compare'
-  selectedForCompare: ['RELIANCE', 'TCS', 'HDFCBANK'],
+  selectedForCompare: ['SteelCas', 'Exideind', 'Voltamp'],
   currentModalStock: null,
   sortCol: 'market_cap_cr',
   sortAsc: false,

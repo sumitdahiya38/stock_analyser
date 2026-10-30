@@ -17,15 +17,13 @@ import urllib.error
 from datetime import datetime
 
 HEADERS = {
-    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-    'Accept-Language': 'en-US,en;q=0.9',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
 }
 
 def fetch_url(url, timeout=12, retries=2):
     for attempt in range(retries):
         try:
-            req = urllib.request.Request(url, headers=HEADERS)
+            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
             with urllib.request.urlopen(req, timeout=timeout) as resp:
                 return resp.read().decode('utf-8', errors='ignore')
         except urllib.error.HTTPError as e:
@@ -161,14 +159,20 @@ def parse_screener_tables(html):
         'shareholding': parse_section('shareholding')
     }
 
-def fetch_screener_data(symbol):
+def fetch_screener_data(symbol, url_type=None):
     """Fetch fundamental details from Screener.in"""
-    url = f"https://www.screener.in/company/{symbol}/consolidated/"
-    html = fetch_url(url)
-    if not html or "Quarterly Results" not in html:
-        time.sleep(0.5)
+    if url_type == 'standalone':
         url = f"https://www.screener.in/company/{symbol}/"
         html = fetch_url(url)
+    else:
+        url = f"https://www.screener.in/company/{symbol}/consolidated/"
+        html = fetch_url(url)
+        tables_test = parse_screener_tables(html) if html else {'quarters': ([], {})}
+        if not html or not tables_test['quarters'][0]:
+            time.sleep(0.5)
+            url = f"https://www.screener.in/company/{symbol}/"
+            html = fetch_url(url)
+
     if not html:
         return {}
 
@@ -426,18 +430,21 @@ def main():
     extracted_stocks = []
     for idx, item in enumerate(stocks_config):
         symbol = item['symbol']
+        screener_sym = item.get('screener_symbol') or symbol
+        display_sym = item.get('display_symbol') or symbol
         yahoo_sym = item.get('yahoo_symbol', f"{symbol}.NS")
         name = item.get('name', symbol)
         configured_sector = item.get('sector', 'General')
 
-        print(f"\n[{idx+1}/{len(stocks_config)}] Fetching {name} ({symbol} / {yahoo_sym})...")
+        print(f"\n[{idx+1}/{len(stocks_config)}] Fetching {name} ({display_sym} / {yahoo_sym})...")
 
         # Yahoo Price, 1Y & 5Y High/Low
         yahoo_info = fetch_yahoo_price_and_high_low(yahoo_sym)
 
-        # Screener Fundamentals with gentle pause
-        time.sleep(1.2)
-        screener_info = fetch_screener_data(symbol)
+        # Screener Fundamentals with gentle pause to prevent rate limiting
+        url_type = item.get('url_type')
+        time.sleep(1.8)
+        screener_info = fetch_screener_data(screener_sym, url_type=url_type)
 
         # Merge with existing cache if Screener was rate-limited
         prev_s = existing_stocks.get(symbol, {})
@@ -467,7 +474,8 @@ def main():
         shareholding = screener_info.get('shareholding_patterns') or prev_s.get('shareholding_patterns', [])
 
         stock_record = {
-            'symbol': symbol,
+            'symbol': display_sym,
+            'screener_symbol': screener_sym,
             'yahoo_symbol': yahoo_sym,
             'name': name,
             'sector': screener_info.get('sector') or configured_sector,

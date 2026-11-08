@@ -70,50 +70,64 @@ def fetch_index_data(symbol):
     return None
 
 def fetch_yahoo_price_and_high_low(yahoo_symbol):
-    """Fetch 5-year high/low, 1-year high/low and live quote from Yahoo Finance"""
+    """Fetch 1-day quote (price, previous close, change, % change) and 5-year high/low from Yahoo Finance"""
+    data_out = {}
+    
     for host in ['query2.finance.yahoo.com', 'query1.finance.yahoo.com']:
-        url = f"https://{host}/v8/finance/chart/{yahoo_symbol}?range=5y&interval=1mo"
-        html = fetch_url(url)
-        if not html:
-            continue
+        # 1. Fetch exact 1-day quote for accurate CMP and previous close
         try:
-            data = json.loads(html)
-            result = data['chart']['result'][0]
-            meta = result.get('meta', {})
-            quote = result.get('indicators', {}).get('quote', [{}])[0]
-            highs = [float(h) for h in quote.get('high', []) if h is not None]
-            lows = [float(l) for l in quote.get('low', []) if l is not None]
-            closes = [float(c) for c in quote.get('close', []) if c is not None]
+            url_1d = f"https://{host}/v8/finance/chart/{yahoo_symbol}?range=1d&interval=1d"
+            html_1d = fetch_url(url_1d, timeout=8)
+            if html_1d:
+                res_1d = json.loads(html_1d)['chart']['result'][0]['meta']
+                current_price = res_1d.get('regularMarketPrice')
+                prev_close = res_1d.get('chartPreviousClose') or res_1d.get('previousClose')
+                
+                if current_price and prev_close and prev_close > 0:
+                    change = round(current_price - prev_close, 2)
+                    pct_change = round((change / prev_close) * 100, 2)
+                else:
+                    change = 0.0
+                    pct_change = 0.0
 
-            current_price = meta.get('regularMarketPrice')
-            prev_close = meta.get('chartPreviousClose', current_price)
-            high_52w = meta.get('fiftyTwoWeekHigh')
-            if not high_52w and highs:
-                high_52w = max(highs[-12:]) if len(highs) >= 12 else max(highs)
-            
-            low_52w = meta.get('fiftyTwoWeekLow')
-            if not low_52w and lows:
-                low_52w = min(lows[-12:]) if len(lows) >= 12 else min(lows)
-
-            high_5y = max(highs) if highs else high_52w
-            low_5y = min(lows) if lows else low_52w
-
-            sparkline = [round(c, 2) for c in closes[-24:]] if closes else []
-
-            return {
-                'current_price': current_price,
-                'previous_close': prev_close,
-                'change': round(current_price - prev_close, 2) if (current_price and prev_close) else 0.0,
-                'change_percent': round(((current_price - prev_close) / prev_close) * 100, 2) if (current_price and prev_close) else 0.0,
-                'high_52w': round(high_52w, 2) if high_52w else None,
-                'low_52w': round(low_52w, 2) if low_52w else None,
-                'high_5y': round(high_5y, 2) if high_5y else None,
-                'low_5y': round(low_5y, 2) if low_5y else None,
-                'sparkline_24m': sparkline
-            }
+                data_out['current_price'] = current_price
+                data_out['previous_close'] = prev_close
+                data_out['change'] = change
+                data_out['change_percent'] = pct_change
+                data_out['high_52w'] = res_1d.get('fiftyTwoWeekHigh')
+                data_out['low_52w'] = res_1d.get('fiftyTwoWeekLow')
         except Exception:
-            continue
-    return {}
+            pass
+
+        # 2. Fetch 5-year range for 5Y High/Low & 24M sparkline
+        try:
+            url_5y = f"https://{host}/v8/finance/chart/{yahoo_symbol}?range=5y&interval=1mo"
+            html_5y = fetch_url(url_5y, timeout=8)
+            if html_5y:
+                res_5y = json.loads(html_5y)['chart']['result'][0]
+                meta_5y = res_5y.get('meta', {})
+                quote_5y = res_5y.get('indicators', {}).get('quote', [{}])[0]
+                highs = [float(h) for h in quote_5y.get('high', []) if h is not None]
+                lows = [float(l) for l in quote_5y.get('low', []) if l is not None]
+                closes = [float(c) for c in quote_5y.get('close', []) if c is not None]
+
+                if not data_out.get('current_price'):
+                    data_out['current_price'] = meta_5y.get('regularMarketPrice')
+                if not data_out.get('high_52w'):
+                    data_out['high_52w'] = meta_5y.get('fiftyTwoWeekHigh', max(highs[-12:]) if len(highs) >= 12 else (max(highs) if highs else None))
+                if not data_out.get('low_52w'):
+                    data_out['low_52w'] = meta_5y.get('fiftyTwoWeekLow', min(lows[-12:]) if len(lows) >= 12 else (min(lows) if lows else None))
+
+                data_out['high_5y'] = round(max(highs), 2) if highs else data_out.get('high_52w')
+                data_out['low_5y'] = round(min(lows), 2) if lows else data_out.get('low_52w')
+                data_out['sparkline_24m'] = [round(c, 2) for c in closes[-24:]] if closes else []
+        except Exception:
+            pass
+
+        if data_out.get('current_price'):
+            return data_out
+
+    return data_out
 
 def clean_val(val_str):
     """Helper to convert formatted string '1,234.50' or '10.5%' to float"""

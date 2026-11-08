@@ -41,97 +41,102 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-[#0a0f1d] text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
+<body class="bg-[#111318] text-[#e2e2e6] antialiased selection:bg-[#a8c7fa] selection:text-[#041e49]">
 
-  <!-- Top Sticky Header -->
-  <header class="sticky top-0 z-40 bg-[#0c1424]/90 backdrop-blur-md border-b border-[#223045] shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <!-- Top Sticky Header (Material 3 Top App Bar) -->
+  <header class="sticky top-0 z-40 bg-[#191c20] border-b border-[#33353a] shadow-sm">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
       
-      <!-- Top Bar: Logo & Indices -->
-      <div class="py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <!-- Top Bar: Logo, Indices & Actions -->
+      <div class="py-2.5 sm:py-3.5 flex flex-col md:flex-row md:items-center md:justify-between gap-2.5 sm:gap-4">
         
         <!-- Logo & Title -->
-        <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-teal-400 flex items-center justify-center shadow-lg shadow-blue-500/20">
-            <i class="fa-solid fa-chart-line text-white text-lg"></i>
-          </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-                Equi<span class="text-blue-400">Pulse</span>
-              </h1>
-              <span class="text-[10px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                GitHub Pages Ready
-              </span>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-[#004a77] text-[#a8c7fa] flex items-center justify-center shadow-sm">
+              <i class="fa-solid fa-chart-line text-sm sm:text-base"></i>
             </div>
-            <p class="text-xs text-slate-400">Fundamental & Valuation Multi-Share Dashboard</p>
+            <div>
+              <h1 class="text-base sm:text-lg font-semibold tracking-tight text-[#e2e2e6] flex items-center gap-1.5">
+                Equi<span class="text-[#a8c7fa]">Pulse</span>
+              </h1>
+              <p class="hidden sm:block text-[11px] text-[#c4c6d0]">Fundamental & Valuation Multi-Share Dashboard</p>
+            </div>
+          </div>
+
+          <!-- Mobile Action Buttons (Right aligned on mobile) -->
+          <div class="flex md:hidden items-center gap-1.5">
+            <button id="refreshBtnMobile" onclick="refreshLiveData()" class="px-3 py-1.5 rounded-full bg-[#004a77] active:bg-[#005b94] text-[#d3e3fd] font-medium text-[11px] shadow-sm transition-all flex items-center gap-1.5">
+              <i id="refreshIconMobile" class="fa-solid fa-arrows-rotate text-[10px]"></i>
+              <span>Refresh</span>
+            </button>
+            <button onclick="openManageModal()" class="p-1.5 rounded-full bg-[#1d2024] text-[#c4c6d0] hover:text-[#e2e2e6] border border-[#44474e]">
+              <i class="fa-solid fa-sliders text-xs"></i>
+            </button>
           </div>
         </div>
 
         <!-- Market Indices (NIFTY 50 & DOW JONES) -->
-        <div class="flex flex-wrap items-center gap-3">
+        <div class="flex items-center justify-between sm:justify-start gap-2 sm:gap-3 overflow-x-auto no-scrollbar">
           
           <!-- NIFTY 50 Ticker -->
-          <div id="niftyCard" class="flex items-center gap-3 px-3 py-1.5 rounded-lg bg-[#142033] border border-[#23354d] shadow-sm">
+          <div id="niftyCard" class="flex-1 sm:flex-initial flex items-center justify-between gap-2.5 sm:gap-3.5 px-3 py-1.5 rounded-2xl bg-[#1d2024] border border-[#33353a] shadow-sm min-w-[135px]">
             <div class="flex flex-col">
-              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+              <span class="text-[9px] sm:text-[10px] font-bold text-[#8e9099] uppercase tracking-wider flex items-center gap-1">
                 <span class="pulse-dot"></span> NIFTY 50
               </span>
-              <span id="niftyPrice" class="text-sm font-extrabold text-white">23,053.10</span>
+              <span id="niftyPrice" class="text-xs sm:text-sm font-bold text-[#e2e2e6]">24,986.40</span>
             </div>
             <div class="text-right flex flex-col">
-              <span id="niftyChange" class="text-xs font-bold text-emerald-400 flex items-center gap-0.5">
-                <i class="fa-solid fa-arrow-trend-up text-[10px]"></i> +354.30
+              <span id="niftyChange" class="text-[11px] sm:text-xs font-bold text-[#6dd58c] flex items-center justify-end gap-0.5">
+                <i class="fa-solid fa-arrow-trend-up text-[9px]"></i> +449.80
               </span>
-              <span id="niftyPct" class="text-[10px] font-semibold text-emerald-400/90">(+1.56%)</span>
+              <span id="niftyPct" class="text-[9px] sm:text-[10px] font-semibold text-[#6dd58c]/90">(+1.83%)</span>
             </div>
           </div>
 
           <!-- DOW JONES Ticker -->
-          <div id="dowCard" class="flex items-center gap-3 px-3 py-1.5 rounded-lg bg-[#142033] border border-[#23354d] shadow-sm">
+          <div id="dowCard" class="flex-1 sm:flex-initial flex items-center justify-between gap-2.5 sm:gap-3.5 px-3 py-1.5 rounded-2xl bg-[#1d2024] border border-[#33353a] shadow-sm min-w-[135px]">
             <div class="flex flex-col">
-              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-blue-400"></span> DOW JONES
+              <span class="text-[9px] sm:text-[10px] font-bold text-[#8e9099] uppercase tracking-wider flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#a8c7fa]"></span> DOW JONES
               </span>
-              <span id="dowPrice" class="text-sm font-extrabold text-white">51,613.99</span>
+              <span id="dowPrice" class="text-xs sm:text-sm font-bold text-[#e2e2e6]">51,285.73</span>
             </div>
             <div class="text-right flex flex-col">
-              <span id="dowChange" class="text-xs font-bold text-rose-400 flex items-center gap-0.5">
-                <i class="fa-solid fa-arrow-trend-down text-[10px]"></i> -728.57
+              <span id="dowChange" class="text-[11px] sm:text-xs font-bold text-[#f28b82] flex items-center justify-end gap-0.5">
+                <i class="fa-solid fa-arrow-trend-down text-[9px]"></i> -237.33
               </span>
-              <span id="dowPct" class="text-[10px] font-semibold text-rose-400/90">(-1.39%)</span>
+              <span id="dowPct" class="text-[9px] sm:text-[10px] font-semibold text-[#f28b82]/90">(-0.46%)</span>
             </div>
           </div>
 
-          <!-- Refresh & Status Button -->
-          <button id="refreshBtn" onclick="refreshLiveData()" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium text-xs shadow-md shadow-blue-600/20 transition-all active:scale-95">
-            <i id="refreshIcon" class="fa-solid fa-arrows-rotate"></i>
-            <span>Refresh Live Data</span>
-          </button>
-
-          <!-- Manage Stocks Button -->
-          <button onclick="openManageModal()" class="px-3 py-2 rounded-lg bg-[#1a263a] hover:bg-[#22324d] text-slate-300 hover:text-white font-medium text-xs border border-[#2d3f58] transition-all">
-            <i class="fa-solid fa-sliders mr-1.5"></i> Stocks List
-          </button>
+          <!-- Desktop Actions (Material 3 Tonal & Outlined Buttons) -->
+          <div class="hidden md:flex items-center gap-2">
+            <button id="refreshBtn" onclick="refreshLiveData()" class="flex items-center gap-2 px-4 py-2 rounded-full bg-[#004a77] hover:bg-[#005b94] text-[#d3e3fd] font-medium text-xs shadow-sm transition-all active:scale-95">
+              <i id="refreshIcon" class="fa-solid fa-arrows-rotate"></i>
+              <span>Refresh Live Data</span>
+            </button>
+            <button onclick="openManageModal()" class="px-4 py-2 rounded-full bg-[#1d2024] hover:bg-[#282a2f] text-[#c4c6d0] hover:text-[#e2e2e6] font-medium text-xs border border-[#44474e] transition-all">
+              <i class="fa-solid fa-sliders mr-1"></i> Stocks
+            </button>
+          </div>
 
         </div>
 
       </div>
 
       <!-- Realtime Status Banner -->
-      <div class="pb-2.5 pt-1 flex flex-wrap items-center justify-between text-xs text-slate-400 border-t border-[#1c293d]">
-        <div class="flex items-center gap-2">
-          <span class="inline-flex items-center gap-1.5 text-slate-300">
-            <i class="fa-solid fa-calculator text-blue-400"></i>
-            <span>P/E Dynamic Logic: <strong class="text-white font-semibold">CMP ÷ TTM EPS</strong></span>
-          </span>
-          <span class="text-slate-600">•</span>
-          <span id="lastUpdatedText" class="text-slate-400">Data as of: Just Now</span>
+      <div class="pb-2 pt-1 flex items-center justify-between text-[11px] text-[#8e9099] border-t border-[#33353a]">
+        <div class="flex items-center gap-1.5 truncate">
+          <i class="fa-solid fa-calculator text-[#a8c7fa] text-[10px]"></i>
+          <span class="hidden sm:inline">P/E Logic: <strong class="text-[#e2e2e6] font-semibold">CMP ÷ TTM EPS</strong> •</span>
+          <span id="lastUpdatedText" class="truncate text-[#c4c6d0]">Data as of: Verified</span>
         </div>
-        <div class="flex items-center gap-3">
-          <label class="flex items-center gap-1.5 cursor-pointer select-none">
-            <input type="checkbox" id="autoRefreshToggle" class="rounded bg-[#1b273a] border-slate-700 text-blue-600 focus:ring-0">
-            <span class="text-[11px] text-slate-300">Auto-refresh (60s)</span>
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <label class="flex items-center gap-1 cursor-pointer select-none">
+            <input type="checkbox" id="autoRefreshToggle" class="rounded bg-[#1d2024] border-[#44474e] text-[#a8c7fa] focus:ring-0 w-3 h-3">
+            <span class="text-[10px] sm:text-[11px] text-[#8e9099]">Auto (60s)</span>
           </label>
         </div>
       </div>
@@ -140,59 +145,62 @@
   </header>
 
   <!-- Main Dashboard Container -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+  <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-6 space-y-3 sm:space-y-6">
 
-    <!-- Control Bar: Search, Sector Filters & Multi-View Switcher -->
-    <div class="glass-panel p-4 rounded-2xl flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+    <!-- Compact Control Bar: Search + Segmented View Switcher + Scrollable Sector Chips -->
+    <div class="glass-panel p-2.5 sm:p-4 rounded-3xl space-y-2.5 sm:space-y-3.5">
       
-      <!-- Search & Filters -->
-      <div class="flex flex-wrap items-center gap-3 flex-1">
+      <!-- Top Row: Search Input & Segmented View Switcher -->
+      <div class="flex items-center justify-between gap-2">
         
-        <!-- Search Input -->
-        <div class="relative min-w-[200px] flex-1 max-w-xs">
-          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+        <!-- Search Input (Material 3 Search Field) -->
+        <div class="relative flex-1 max-w-md">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8e9099] text-xs"></i>
           <input 
             type="text" 
             id="searchInput" 
             oninput="handleSearch(this.value)" 
             placeholder="Search stock by name or ticker..." 
-            class="w-full pl-9 pr-3 py-2 rounded-xl bg-[#0f172a] border border-[#223147] text-white placeholder-slate-500 text-xs focus:outline-none focus:border-blue-500 transition-colors"
+            class="w-full pl-9 pr-4 py-2 rounded-full bg-[#14171b] border border-[#44474e] text-[#e2e2e6] placeholder-[#8e9099] text-xs focus:outline-none focus:border-[#a8c7fa] focus:ring-1 focus:ring-[#a8c7fa] transition-colors"
           >
         </div>
 
-        <!-- Sector Pills -->
-        <div id="sectorPills" class="flex flex-wrap items-center gap-1.5">
-          <!-- Populated by JS -->
+        <!-- Material 3 Segmented Button -->
+        <div class="flex items-center gap-1 bg-[#14171b] p-1 rounded-full border border-[#44474e] flex-shrink-0">
+          <button 
+            id="btnGridView" 
+            onclick="setViewMode('grid')" 
+            class="px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all bg-[#a8c7fa] text-[#041e49] shadow-sm"
+            title="Multi-Card View"
+          >
+            <i class="fa-solid fa-grip text-xs"></i>
+            <span class="hidden sm:inline">Cards</span>
+          </button>
+          <button 
+            id="btnTableView" 
+            onclick="setViewMode('table')" 
+            class="px-3.5 py-1.5 rounded-full text-xs font-medium text-[#c4c6d0] hover:text-white flex items-center gap-1.5 transition-all"
+            title="Master Table View"
+          >
+            <i class="fa-solid fa-table-list text-xs"></i>
+            <span class="hidden sm:inline">Table</span>
+          </button>
+          <button 
+            id="btnCompareView" 
+            onclick="setViewMode('compare')" 
+            class="px-3.5 py-1.5 rounded-full text-xs font-medium text-[#c4c6d0] hover:text-white flex items-center gap-1.5 transition-all"
+            title="Side-by-Side Compare"
+          >
+            <i class="fa-solid fa-columns text-xs"></i>
+            <span class="hidden sm:inline">Compare</span>
+          </button>
         </div>
 
       </div>
 
-      <!-- View Switcher (View 5-10 stocks in one go) -->
-      <div class="flex items-center gap-1.5 bg-[#0e1626] p-1 rounded-xl border border-[#223147] self-start md:self-auto">
-        <button 
-          id="btnGridView" 
-          onclick="setViewMode('grid')" 
-          class="px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all bg-blue-600 text-white shadow-sm"
-        >
-          <i class="fa-solid fa-grip"></i>
-          <span>Multi-Card (All)</span>
-        </button>
-        <button 
-          id="btnTableView" 
-          onclick="setViewMode('table')" 
-          class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white flex items-center gap-1.5 transition-all"
-        >
-          <i class="fa-solid fa-table-list"></i>
-          <span>Master Table</span>
-        </button>
-        <button 
-          id="btnCompareView" 
-          onclick="setViewMode('compare')" 
-          class="px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white flex items-center gap-1.5 transition-all"
-        >
-          <i class="fa-solid fa-columns"></i>
-          <span>Side-by-Side</span>
-        </button>
+      <!-- Bottom Row: Sleek Horizontally Scrollable Sector Filter Chips -->
+      <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 text-nowrap" id="sectorPills">
+        <!-- Injected by JavaScript as sleek Material 3 filter chips -->
       </div>
 
     </div>
@@ -203,16 +211,16 @@
     </div>
 
     <!-- Master Comparative Table View -->
-    <div id="stocksTableContainer" class="hidden glass-panel rounded-2xl overflow-hidden border border-[#223147]">
-      <div class="p-4 bg-[#111a2c] border-b border-[#223147] flex items-center justify-between">
+    <div id="stocksTableContainer" class="hidden glass-panel rounded-3xl overflow-hidden border border-[#33353a]">
+      <div class="p-4 bg-[#282a2f] border-b border-[#33353a] flex items-center justify-between">
         <div>
-          <h2 class="text-sm font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-table-columns text-blue-400"></i>
+          <h2 class="text-sm font-semibold text-[#e2e2e6] flex items-center gap-2">
+            <i class="fa-solid fa-table-columns text-[#a8c7fa]"></i>
             Master Comparison Matrix (View 5-10 Stocks at a Glance)
           </h2>
-          <p class="text-xs text-slate-400">Click on any column header to sort ascending/descending</p>
+          <p class="text-xs text-[#8e9099]">Click on any column header to sort ascending/descending</p>
         </div>
-        <span id="tableCountBadge" class="text-xs px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 font-semibold border border-blue-500/20">
+        <span id="tableCountBadge" class="text-xs px-3 py-1 rounded-full bg-[#004a77] text-[#d3e3fd] font-medium border border-[#005b94]">
           10 Stocks
         </span>
       </div>
@@ -243,13 +251,13 @@
 
     <!-- Side-by-Side Comparison View -->
     <div id="stocksCompareContainer" class="hidden space-y-4">
-      <div class="glass-panel p-4 rounded-2xl flex flex-wrap items-center justify-between gap-3">
+      <div class="glass-panel p-4 rounded-3xl flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 class="text-sm font-bold text-white flex items-center gap-2">
-            <i class="fa-solid fa-scale-balanced text-teal-400"></i>
+          <h2 class="text-sm font-semibold text-[#e2e2e6] flex items-center gap-2">
+            <i class="fa-solid fa-scale-balanced text-[#a8c7fa]"></i>
             Head-to-Head Stock Comparator
           </h2>
-          <p class="text-xs text-slate-400">Select 2 to 4 stocks below to compare their complete financials side-by-side</p>
+          <p class="text-xs text-[#8e9099]">Select 2 to 4 stocks below to compare their complete financials side-by-side</p>
         </div>
         <div id="compareCheckboxes" class="flex flex-wrap items-center gap-2">
           <!-- Stock selector pills injected by JS -->
@@ -263,43 +271,43 @@
 
   </main>
 
-  <!-- Deep Dive Detailed Modal -->
+  <!-- Deep Dive Detailed Modal (Material 3 Dialog) -->
   <div id="detailModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-5 overflow-y-auto">
-    <div class="glass-panel bg-[#0d1626] border border-[#2b3a50] rounded-2xl max-w-5xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden my-auto">
+    <div class="bg-[#1d2024] border border-[#44474e] rounded-3xl max-w-5xl w-full max-h-[92vh] flex flex-col shadow-2xl overflow-hidden my-auto">
       
       <!-- Modal Header -->
-      <div class="p-5 border-b border-[#223147] flex items-start justify-between bg-[#121c2e]">
+      <div class="p-5 border-b border-[#33353a] flex items-start justify-between bg-[#282a2f]">
         <div class="flex items-center gap-4">
-          <div class="w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-lg" id="modalLogo">
+          <div class="w-12 h-12 rounded-2xl bg-[#004a77] border border-[#a8c7fa]/20 flex items-center justify-center text-[#a8c7fa] font-bold text-lg" id="modalLogo">
             REL
           </div>
           <div>
             <div class="flex items-center gap-3">
-              <h2 id="modalStockName" class="text-xl font-bold text-white">Reliance Industries Ltd</h2>
-              <span id="modalTickerBadge" class="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+              <h2 id="modalStockName" class="text-xl font-bold text-[#e2e2e6]">Reliance Industries Ltd</h2>
+              <span id="modalTickerBadge" class="px-3 py-0.5 rounded-full text-xs font-medium bg-[#004a77] text-[#d3e3fd] border border-[#005b94]">
                 RELIANCE
               </span>
-              <span id="modalSectorBadge" class="text-xs text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700">
+              <span id="modalSectorBadge" class="text-xs text-[#c4c6d0] bg-[#33353a] px-3 py-0.5 rounded-full border border-[#44474e]">
                 Energy
               </span>
             </div>
             <div class="flex items-baseline gap-3 mt-1">
-              <span id="modalPrice" class="text-2xl font-black text-white">₹1,165.00</span>
-              <span id="modalChangeBadge" class="text-xs font-bold text-emerald-400 flex items-center gap-1">
+              <span id="modalPrice" class="text-2xl font-black text-[#e2e2e6]">₹1,165.00</span>
+              <span id="modalChangeBadge" class="text-xs font-bold text-[#6dd58c] flex items-center gap-1">
                 +12.40 (+1.08%)
               </span>
-              <span class="text-xs text-slate-400">| TTM EPS: <strong id="modalTtmEps" class="text-white">₹60.68</strong></span>
+              <span class="text-xs text-[#8e9099]">| TTM EPS: <strong id="modalTtmEps" class="text-[#e2e2e6]">₹60.68</strong></span>
             </div>
           </div>
         </div>
 
-        <button onclick="closeDetailModal()" class="w-9 h-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-colors">
+        <button onclick="closeDetailModal()" class="w-9 h-9 rounded-full bg-[#33353a] hover:bg-[#44474e] text-[#c4c6d0] hover:text-white flex items-center justify-center transition-colors">
           <i class="fa-solid fa-xmark text-base"></i>
         </button>
       </div>
 
       <!-- Quick Metrics Bar -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 p-3 bg-[#0a101d] border-b border-[#1c293d] text-center text-xs">
+      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2 p-3 bg-[#191c20] border-b border-[#33353a] text-center text-xs">
         <div class="p-2 rounded-lg bg-[#111a29]">
           <span class="text-slate-400 block text-[10px] uppercase font-bold">Live P/E</span>
           <span id="modalStatPE" class="text-sm font-bold text-blue-400">19.20</span>
@@ -533,43 +541,43 @@
     </div>
   </div>
 
-  <!-- Manage Stocks Modal -->
+  <!-- Manage Stocks Modal (Material 3 Dialog) -->
   <div id="manageModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
-    <div class="glass-panel bg-[#0d1626] border border-[#2b3a50] rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-[#223147] pb-3">
-        <h3 class="text-base font-bold text-white flex items-center gap-2">
-          <i class="fa-solid fa-list-check text-blue-400"></i>
+    <div class="bg-[#1d2024] border border-[#44474e] rounded-3xl max-w-xl w-full p-6 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-[#33353a] pb-3">
+        <h3 class="text-base font-semibold text-[#e2e2e6] flex items-center gap-2">
+          <i class="fa-solid fa-list-check text-[#a8c7fa]"></i>
           Tracked Stocks Configuration
         </h3>
-        <button onclick="closeManageModal()" class="text-slate-400 hover:text-white">
-          <i class="fa-solid fa-xmark text-lg"></i>
+        <button onclick="closeManageModal()" class="w-8 h-8 rounded-full bg-[#282a2f] hover:bg-[#33353a] text-[#c4c6d0] hover:text-white flex items-center justify-center transition-colors">
+          <i class="fa-solid fa-xmark text-sm"></i>
         </button>
       </div>
 
-      <p class="text-xs text-slate-400">
-        The stocks displayed on this website are loaded from the static file <code class="text-blue-300 bg-slate-800 px-1.5 py-0.5 rounded">stocks_list.json</code>. You can add or modify stocks in this file anytime.
+      <p class="text-xs text-[#8e9099]">
+        The stocks displayed on this website are loaded from the static file <code class="text-[#a8c7fa] bg-[#14171b] px-2 py-0.5 rounded-full border border-[#44474e]">stocks_list.json</code>. You can add or modify stocks in this file anytime.
       </p>
 
-      <div class="max-h-60 overflow-y-auto rounded-xl border border-[#223147] bg-[#09101c] p-3">
+      <div class="max-h-60 overflow-y-auto rounded-2xl border border-[#33353a] bg-[#14171b] p-3">
         <div id="manageStocksList" class="space-y-2">
           <!-- Populated by JS -->
         </div>
       </div>
 
-      <div class="p-3 rounded-xl bg-[#131d2e] border border-[#223147] text-xs text-slate-300 space-y-2">
-        <div class="font-bold text-white flex items-center gap-1.5">
-          <i class="fa-solid fa-terminal text-blue-400"></i>
+      <div class="p-4 rounded-2xl bg-[#191c20] border border-[#33353a] text-xs text-[#c4c6d0] space-y-2">
+        <div class="font-semibold text-[#e2e2e6] flex items-center gap-1.5">
+          <i class="fa-solid fa-terminal text-[#a8c7fa]"></i>
           How to update stock data & deploy to GitHub Pages:
         </div>
-        <ol class="list-decimal list-inside space-y-1 text-slate-400">
-          <li>Edit <code class="text-blue-300">stocks_list.json</code> to add your desired stocks.</li>
-          <li>Run <code class="text-blue-300">python3 scripts/extract_data.py</code> to fetch full latest fundamentals.</li>
+        <ol class="list-decimal list-inside space-y-1 text-[#8e9099]">
+          <li>Edit <code class="text-[#a8c7fa]">stocks_list.json</code> to add your desired stocks.</li>
+          <li>Run <code class="text-[#a8c7fa]">python3 scripts/extract_data.py</code> to fetch full latest fundamentals.</li>
           <li>Push to GitHub! The GitHub Actions workflow will automatically deploy to GitHub Pages.</li>
         </ol>
       </div>
 
       <div class="flex justify-end pt-2">
-        <button onclick="closeManageModal()" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold">
+        <button onclick="closeManageModal()" class="px-5 py-2 rounded-full bg-[#a8c7fa] hover:bg-[#8ab4f8] text-[#041e49] text-xs font-semibold shadow-sm transition-all">
           Got It
         </button>
       </div>

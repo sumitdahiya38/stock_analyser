@@ -167,17 +167,26 @@ function recalculateAllMetrics() {
 /**
  * Live Refresh Logic:
  * On refresh, fetches fresh data/stocks_data.json (cache-busting),
- * pulls live quote changes, recalculates P/E in real-time, and updates views.
+ * pulls verified quotes, recalculates P/E in real-time, and updates views.
+ * If verified fresh data is unavailable or network fails, reloads the page.
  */
 async function refreshLiveData() {
   const refreshBtn = document.getElementById('refreshBtn');
   const refreshIcon = document.getElementById('refreshIcon');
+  const refreshBtnMobile = document.getElementById('refreshBtnMobile');
+  const refreshIconMobile = document.getElementById('refreshIconMobile');
 
-  refreshIcon.classList.add('fa-spin');
-  refreshBtn.disabled = true;
+  const setRefreshing = (loading) => {
+    if (refreshIcon) refreshIcon.classList.toggle('fa-spin', loading);
+    if (refreshBtn) refreshBtn.disabled = loading;
+    if (refreshIconMobile) refreshIconMobile.classList.toggle('fa-spin', loading);
+    if (refreshBtnMobile) refreshBtnMobile.disabled = loading;
+  };
+
+  setRefreshing(true);
 
   try {
-    // 1. Try reloading fresh data/stocks_data.json with timestamp cache-buster
+    // 1. Fetch fresh data/stocks_data.json with timestamp cache-buster
     let freshData = null;
     try {
       const resp = await fetch(`data/stocks_data.json?_t=${Date.now()}`, { cache: 'no-store' });
@@ -185,89 +194,50 @@ async function refreshLiveData() {
         freshData = await resp.json();
       }
     } catch (e) {
-      console.warn('Local file or network bypass for json refresh:', e);
+      console.warn('Direct fetch failed, falling back to reload:', e);
     }
 
-    if (freshData && freshData.stocks && freshData.stocks.length > 0) {
+    // 2. If valid verified data is available, update store and re-render
+    if (freshData && Array.isArray(freshData.stocks) && freshData.stocks.length > 0) {
       stockDataStore.indices = freshData.indices || stockDataStore.indices;
+      stockDataStore.stocks = freshData.stocks;
       stockDataStore.lastUpdated = freshData.last_updated || new Date().toLocaleString();
 
-      // Merge updated metrics
-      freshData.stocks.forEach((freshStock) => {
-        const target = stockDataStore.stocks.find((s) => s.symbol === freshStock.symbol);
-        if (target) {
-          Object.assign(target, freshStock);
-        } else {
-          stockDataStore.stocks.push(freshStock);
+      // Recalculate dynamic P/E = CMP / TTM EPS for all stocks
+      recalculateAllMetrics();
+
+      // Update UI views
+      renderIndices();
+      renderSectorPills();
+      renderMainViews();
+
+      // Update open modal if user is actively viewing a stock
+      if (stockDataStore.currentModalStock) {
+        const activeSym = stockDataStore.currentModalStock.symbol;
+        const updatedStock = stockDataStore.stocks.find((s) => s.symbol === activeSym);
+        if (updatedStock) {
+          updateModalInPlace(updatedStock);
         }
-      });
-    }
-
-    // 2. Perform live quote movements & recalculate P/E
-    stockDataStore.stocks.forEach((stock) => {
-      // Dynamic tick movement: small realistic fluctuation (+/- 0.2% to 0.5%)
-      const deltaPercent = (Math.random() * 0.7 - 0.32) / 100;
-      const newPrice = Math.round((stock.current_price * (1 + deltaPercent)) * 100) / 100;
-
-      stock.previous_price = stock.current_price;
-      stock.current_price = newPrice;
-
-      if (stock.previous_close) {
-        stock.change = Math.round((stock.current_price - stock.previous_close) * 100) / 100;
-        stock.change_percent = Math.round(((stock.change / stock.previous_close) * 100) * 100) / 100;
       }
 
-      // Recalculate P/E with new live price: CMP / TTM EPS
-      stock.pe = calculateStockPE(stock.current_price, stock.ttm_eps);
-      stock.valuation_diff = calculateValuationDiff(stock.pe, stock.sector_pe);
-
-      // Update 52W range high/low if pierced
-      if (stock.current_price > stock.high_52w) stock.high_52w = stock.current_price;
-      if (stock.current_price < stock.low_52w) stock.low_52w = stock.current_price;
-    });
-
-    // 3. Update Indices with live tick
-    if (stockDataStore.indices.NIFTY_50) {
-      const niftyDelta = (Math.random() * 0.25 - 0.1) / 100;
-      stockDataStore.indices.NIFTY_50.price = Math.round((stockDataStore.indices.NIFTY_50.price * (1 + niftyDelta)) * 100) / 100;
-      const prev = stockDataStore.indices.NIFTY_50.previous_close || 22800;
-      stockDataStore.indices.NIFTY_50.change = Math.round((stockDataStore.indices.NIFTY_50.price - prev) * 100) / 100;
-      stockDataStore.indices.NIFTY_50.change_percent = Math.round(((stockDataStore.indices.NIFTY_50.change / prev) * 100) * 100) / 100;
+      updateLastUpdatedText(`Data as of: ${stockDataStore.lastUpdated}`);
+      flashUpdatedPrices();
+      showToast('⚡ Updated with latest verified stock data!');
+    } else {
+      // If we don't have verified fresh data, do NOT show fake/mock tick numbers; refresh the page
+      console.info('Fresh data unavailable via fetch, refreshing page as requested...');
+      showToast('Refreshing page to load latest verified data...');
+      setTimeout(() => {
+        window.location.reload();
+      }, 350);
+      return;
     }
-
-    if (stockDataStore.indices.DOW_JONES) {
-      const dowDelta = (Math.random() * 0.2 - 0.08) / 100;
-      stockDataStore.indices.DOW_JONES.price = Math.round((stockDataStore.indices.DOW_JONES.price * (1 + dowDelta)) * 100) / 100;
-      const prev = stockDataStore.indices.DOW_JONES.previous_close || 51800;
-      stockDataStore.indices.DOW_JONES.change = Math.round((stockDataStore.indices.DOW_JONES.price - prev) * 100) / 100;
-      stockDataStore.indices.DOW_JONES.change_percent = Math.round(((stockDataStore.indices.DOW_JONES.change / prev) * 100) * 100) / 100;
-    }
-
-    // 4. Recalculate metrics and re-render
-    recalculateAllMetrics();
-    renderIndices();
-    renderMainViews();
-
-    // 5. Update open modal if user is actively viewing a stock
-    if (stockDataStore.currentModalStock) {
-      const activeSym = stockDataStore.currentModalStock.symbol;
-      const updatedStock = stockDataStore.stocks.find((s) => s.symbol === activeSym);
-      if (updatedStock) {
-        updateModalInPlace(updatedStock);
-      }
-    }
-
-    const nowStr = new Date().toLocaleTimeString();
-    updateLastUpdatedText(`Refreshed at ${nowStr} (Live P/E Recalculated)`);
-    flashUpdatedPrices();
-    showToast('⚡ Live prices & P/E recalculated successfully!');
   } catch (err) {
-    console.error('Refresh failed:', err);
-    showToast('Refresh encountered an error', 'error');
+    console.error('Refresh encountered error, refreshing page:', err);
+    window.location.reload();
   } finally {
     setTimeout(() => {
-      refreshIcon.classList.remove('fa-spin');
-      refreshBtn.disabled = false;
+      setRefreshing(false);
     }, 450);
   }
 }
@@ -353,7 +323,7 @@ function renderIndices() {
 }
 
 /**
- * Render Sector Filter Pills
+ * Render Sector Filter Pills (Material 3 Filter Chips)
  */
 function renderSectorPills() {
   const sectorsSet = new Set(['ALL']);
@@ -362,15 +332,16 @@ function renderSectorPills() {
   });
 
   const container = document.getElementById('sectorPills');
+  if (!container) return;
   container.innerHTML = '';
 
   sectorsSet.forEach((sec) => {
     const btn = document.createElement('button');
     const isActive = stockDataStore.activeSector === sec;
-    btn.className = `px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
+    btn.className = `flex-shrink-0 text-nowrap px-3.5 py-1 rounded-full text-xs font-medium transition-all ${
       isActive
-        ? 'bg-blue-600 text-white shadow-sm'
-        : 'bg-[#142033] text-slate-400 hover:text-white hover:bg-[#1a2942] border border-[#223147]'
+        ? 'bg-[#a8c7fa] text-[#041e49] font-semibold shadow-sm'
+        : 'bg-[#191c20] text-[#c4c6d0] hover:text-white hover:bg-[#282a2f] border border-[#44474e]'
     }`;
     btn.innerText = sec === 'ALL' ? 'All Sectors' : sec;
     btn.onclick = () => {
@@ -402,17 +373,17 @@ function getFilteredStocks() {
 function setViewMode(mode) {
   stockDataStore.viewMode = mode;
 
-  // Toggle button styling
+  // Toggle button styling (Material 3 Segmented Control)
   const btnGrid = document.getElementById('btnGridView');
   const btnTable = document.getElementById('btnTableView');
   const btnCompare = document.getElementById('btnCompareView');
 
   [btnGrid, btnTable, btnCompare].forEach((b) => {
-    b.className = 'px-3 py-1.5 rounded-lg text-xs font-medium text-slate-400 hover:text-white flex items-center gap-1.5 transition-all';
+    b.className = 'px-3.5 py-1.5 rounded-full text-xs font-medium text-[#c4c6d0] hover:text-white flex items-center gap-1.5 transition-all';
   });
 
   const activeBtn = mode === 'grid' ? btnGrid : mode === 'table' ? btnTable : btnCompare;
-  activeBtn.className = 'px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-all bg-blue-600 text-white shadow-sm';
+  activeBtn.className = 'px-3.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all bg-[#a8c7fa] text-[#041e49] shadow-sm';
 
   // Toggle containers
   document.getElementById('stocksGrid').classList.toggle('hidden', mode !== 'grid');
@@ -465,10 +436,10 @@ function renderGridCards(stocks) {
         const heightPct = Math.max(15, Math.round(((q.net_profit || 0) / maxProfit) * 100));
         return `
           <div class="flex-1 flex flex-col items-center gap-1 has-tooltip">
-            <div class="w-full bg-[#1b263b] rounded-t-sm h-12 flex items-end justify-center p-0.5">
-              <div class="w-full bg-blue-500 rounded-t-sm transition-all hover:bg-blue-400" style="height: ${heightPct}%;"></div>
+            <div class="w-full bg-[#14171b] rounded-t-sm h-12 flex items-end justify-center p-0.5">
+              <div class="w-full bg-[#a8c7fa] rounded-t-sm transition-all hover:bg-[#c2e7ff]" style="height: ${heightPct}%;"></div>
             </div>
-            <span class="text-[9px] text-slate-500 font-medium">${(q.quarter || '').slice(0, 3)}</span>
+            <span class="text-[9px] text-[#8e9099] font-medium">${(q.quarter || '').slice(0, 3)}</span>
             <div class="tooltip-content">${q.quarter}: ₹${formatNumber(q.net_profit, 0)} Cr</div>
           </div>
         `;
@@ -476,22 +447,22 @@ function renderGridCards(stocks) {
       .join('');
 
     const card = document.createElement('div');
-    card.className = 'glass-card rounded-2xl p-5 space-y-4 flex flex-col justify-between';
+    card.className = 'glass-card rounded-3xl p-5 space-y-4 flex flex-col justify-between';
     card.innerHTML = `
       <!-- Card Top: Name, Ticker, Sector & Price -->
       <div>
         <div class="flex items-start justify-between gap-3">
           <div>
             <div class="flex items-center gap-2">
-              <h3 class="text-base font-bold text-white hover:text-blue-400 cursor-pointer transition-colors" onclick="openDetailModal('${stock.symbol}')">
+              <h3 class="text-base font-semibold text-[#e2e2e6] hover:text-[#a8c7fa] cursor-pointer transition-colors" onclick="openDetailModal('${stock.symbol}')">
                 ${stock.name}
               </h3>
             </div>
-            <div class="flex items-center gap-2 mt-1">
-              <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">
+            <div class="flex items-center gap-1.5 mt-1.5">
+              <span class="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-[#004a77] text-[#d3e3fd] border border-[#005b94]">
                 ${stock.symbol}
               </span>
-              <span class="text-[11px] text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700/60 truncate max-w-[150px]">
+              <span class="text-[11px] text-[#c4c6d0] bg-[#282a2f] px-2.5 py-0.5 rounded-full border border-[#44474e] truncate max-w-[150px]">
                 ${stock.sector || 'Equities'}
               </span>
             </div>
@@ -499,10 +470,10 @@ function renderGridCards(stocks) {
 
           <!-- Price & Day Change -->
           <div class="text-right">
-            <div class="text-xl font-black text-white price-val">
+            <div class="text-xl font-black text-[#e2e2e6] price-val">
               ₹${formatNumber(stock.current_price, 2)}
             </div>
-            <div class="text-xs font-bold flex items-center justify-end gap-1 ${isUp ? 'text-emerald-400' : 'text-rose-400'}">
+            <div class="text-xs font-bold flex items-center justify-end gap-1 ${isUp ? 'text-[#6dd58c]' : 'text-[#f28b82]'}">
               <i class="fa-solid fa-arrow-trend-${isUp ? 'up' : 'down'} text-[10px]"></i>
               <span>${isUp ? '+' : ''}${formatNumber(stock.change, 2)} (${isUp ? '+' : ''}${stock.change_percent || 0}%)</span>
             </div>
@@ -510,50 +481,50 @@ function renderGridCards(stocks) {
         </div>
 
         <!-- Metric Badges Row: Live P/E vs Sector P/E & ROCE / ROE -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4 pt-3 border-t border-[#1e2d42] text-center">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4 pt-3.5 border-t border-[#33353a] text-center">
           
           <!-- Live P/E -->
-          <div class="p-2 rounded-xl bg-[#0c1424] border border-[#1e2d42]">
-            <span class="text-[10px] uppercase font-bold text-slate-400 block">Live P/E</span>
-            <span class="text-sm font-extrabold text-blue-400">${stock.pe ? stock.pe.toFixed(1) : 'N/A'}</span>
-            <span class="text-[9px] text-slate-500 block truncate">Formula: CMP/EPS</span>
+          <div class="p-2.5 rounded-2xl bg-[#14171b] border border-[#2e3137]">
+            <span class="text-[10px] uppercase font-bold text-[#8e9099] block">Live P/E</span>
+            <span class="text-sm font-black text-[#a8c7fa]">${stock.pe ? stock.pe.toFixed(1) : 'N/A'}</span>
+            <span class="text-[9px] text-[#8e9099] block truncate">CMP/EPS</span>
           </div>
 
           <!-- Sector P/E -->
-          <div class="p-2 rounded-xl bg-[#0c1424] border border-[#1e2d42]">
-            <span class="text-[10px] uppercase font-bold text-slate-400 block">Sector P/E</span>
-            <span class="text-sm font-extrabold text-slate-300">${stock.sector_pe ? stock.sector_pe.toFixed(1) : 'N/A'}</span>
-            <span class="text-[9px] font-semibold block truncate ${isUndervalued ? 'text-emerald-400' : 'text-amber-400'}">
-              ${isUndervalued ? `-${Math.abs(peDiscount)}% (Cheap)` : `+${peDiscount}% (Prem)`}
+          <div class="p-2.5 rounded-2xl bg-[#14171b] border border-[#2e3137]">
+            <span class="text-[10px] uppercase font-bold text-[#8e9099] block">Sector P/E</span>
+            <span class="text-sm font-black text-[#e2e2e6]">${stock.sector_pe ? stock.sector_pe.toFixed(1) : 'N/A'}</span>
+            <span class="text-[9px] font-semibold block truncate ${isUndervalued ? 'text-[#6dd58c]' : 'text-[#fdd663]'}">
+              ${isUndervalued ? `-${Math.abs(peDiscount)}% (Value)` : `+${peDiscount}% (Prem)`}
             </span>
           </div>
 
           <!-- ROCE -->
-          <div class="p-2 rounded-xl bg-[#0c1424] border border-[#1e2d42]">
-            <span class="text-[10px] uppercase font-bold text-slate-400 block">ROCE</span>
-            <span class="text-sm font-extrabold text-emerald-400">${stock.roce ? stock.roce.toFixed(1) + '%' : 'N/A'}</span>
-            <span class="text-[9px] text-slate-500 block">Cap Employed</span>
+          <div class="p-2.5 rounded-2xl bg-[#14171b] border border-[#2e3137]">
+            <span class="text-[10px] uppercase font-bold text-[#8e9099] block">ROCE</span>
+            <span class="text-sm font-black text-[#6dd58c]">${stock.roce ? stock.roce.toFixed(1) + '%' : 'N/A'}</span>
+            <span class="text-[9px] text-[#8e9099] block">Cap Employed</span>
           </div>
 
           <!-- ROE -->
-          <div class="p-2 rounded-xl bg-[#0c1424] border border-[#1e2d42]">
-            <span class="text-[10px] uppercase font-bold text-slate-400 block">ROE</span>
-            <span class="text-sm font-extrabold text-teal-400">${stock.roe ? stock.roe.toFixed(1) + '%' : 'N/A'}</span>
-            <span class="text-[9px] text-slate-500 block">On Equity</span>
+          <div class="p-2.5 rounded-2xl bg-[#14171b] border border-[#2e3137]">
+            <span class="text-[10px] uppercase font-bold text-[#8e9099] block">ROE</span>
+            <span class="text-sm font-black text-[#8ab4f8]">${stock.roe ? stock.roe.toFixed(1) + '%' : 'N/A'}</span>
+            <span class="text-[9px] text-[#8e9099] block">On Equity</span>
           </div>
 
         </div>
 
         <!-- 1-Year & 5-Year High/Low Range Bars -->
-        <div class="space-y-3 mt-4 pt-3 border-t border-[#1e2d42]">
+        <div class="space-y-3 mt-4 pt-3.5 border-t border-[#33353a]">
           <!-- 1 Year Range -->
           <div>
             <div class="flex justify-between text-[11px] font-semibold mb-1">
-              <span class="text-slate-400 flex items-center gap-1">
-                <i class="fa-solid fa-gauge-simple text-blue-400 text-[10px]"></i> 1-Year Range
+              <span class="text-[#8e9099] flex items-center gap-1">
+                <i class="fa-solid fa-gauge-simple text-[#a8c7fa] text-[10px]"></i> 1-Year Range
               </span>
-              <span class="text-slate-300">
-                ₹${formatNumber(stock.low_52w, 0)} <span class="text-slate-500">→</span> ₹${formatNumber(stock.high_52w, 0)}
+              <span class="text-[#e2e2e6]">
+                ₹${formatNumber(stock.low_52w, 0)} <span class="text-[#8e9099]">→</span> ₹${formatNumber(stock.high_52w, 0)}
               </span>
             </div>
             <div class="range-bar-track">
@@ -565,61 +536,61 @@ function renderGridCards(stocks) {
           <!-- 5 Years Range -->
           <div>
             <div class="flex justify-between text-[11px] font-semibold mb-1">
-              <span class="text-slate-400 flex items-center gap-1">
-                <i class="fa-solid fa-chart-area text-teal-400 text-[10px]"></i> 5-Years Range
+              <span class="text-[#8e9099] flex items-center gap-1">
+                <i class="fa-solid fa-chart-area text-[#6dd58c] text-[10px]"></i> 5-Years Range
               </span>
-              <span class="text-slate-300">
-                ₹${formatNumber(stock.low_5y, 0)} <span class="text-slate-500">→</span> ₹${formatNumber(stock.high_5y, 0)}
+              <span class="text-[#e2e2e6]">
+                ₹${formatNumber(stock.low_5y, 0)} <span class="text-[#8e9099]">→</span> ₹${formatNumber(stock.high_5y, 0)}
               </span>
             </div>
             <div class="range-bar-track">
-              <div class="range-bar-fill bg-gradient-to-r from-teal-500 to-blue-500" style="width: ${stock.range_pos_5y || 50}%;"></div>
-              <div class="range-bar-pin border-teal-400" style="left: ${stock.range_pos_5y || 50}%;"></div>
+              <div class="range-bar-fill bg-[#6dd58c]" style="width: ${stock.range_pos_5y || 50}%;"></div>
+              <div class="range-bar-pin" style="left: ${stock.range_pos_5y || 50}%;"></div>
             </div>
           </div>
         </div>
 
         <!-- Last 5 Quarters Profit Mini Bar Chart -->
-        <div class="mt-4 pt-3 border-t border-[#1e2d42]">
+        <div class="mt-4 pt-3.5 border-t border-[#33353a]">
           <div class="flex justify-between items-center text-[11px] font-semibold mb-2">
-            <span class="text-slate-400">Last 5 Quarters Net Profit (₹ Cr)</span>
-            <span class="text-emerald-400 font-bold">
+            <span class="text-[#8e9099]">Last 5 Quarters Net Profit (₹ Cr)</span>
+            <span class="text-[#6dd58c] font-bold">
               Latest: ₹${formatNumber(qProfits[qProfits.length - 1]?.net_profit, 0)} Cr
             </span>
           </div>
           <div class="flex items-end gap-1.5 h-16 pt-1">
-            ${miniBarsHtml || '<div class="text-xs text-slate-500 py-3 text-center w-full">Financials loading...</div>'}
+            ${miniBarsHtml || '<div class="text-xs text-[#8e9099] py-3 text-center w-full">Financials loading...</div>'}
           </div>
         </div>
 
         <!-- Balance Sheet Snapshot (Reserves vs Borrowings) -->
-        <div class="mt-4 pt-3 border-t border-[#1e2d42] flex items-center justify-between text-[11px]">
+        <div class="mt-4 pt-3.5 border-t border-[#33353a] flex items-center justify-between text-[11px]">
           <div>
-            <span class="text-slate-400 block">Reserves</span>
-            <span class="font-bold text-emerald-400">₹${formatNumber(stock.latest_reserves, 0)} Cr</span>
+            <span class="text-[#8e9099] block">Reserves</span>
+            <span class="font-bold text-[#6dd58c]">₹${formatNumber(stock.latest_reserves, 0)} Cr</span>
           </div>
           <div class="text-center">
-            <span class="text-slate-400 block">Borrowings</span>
-            <span class="font-bold text-rose-400">₹${formatNumber(stock.latest_borrowings, 0)} Cr</span>
+            <span class="text-[#8e9099] block">Borrowings</span>
+            <span class="font-bold text-[#f28b82]">₹${formatNumber(stock.latest_borrowings, 0)} Cr</span>
           </div>
           <div class="text-right">
-            <span class="text-slate-400 block">Debt / Equity</span>
-            <span class="font-bold ${stock.latest_debt_to_equity > 1 ? 'text-amber-400' : 'text-slate-200'}">
+            <span class="text-[#8e9099] block">Debt / Equity</span>
+            <span class="font-bold ${stock.latest_debt_to_equity > 1 ? 'text-[#fdd663]' : 'text-[#e2e2e6]'}">
               ${stock.latest_debt_to_equity !== null ? stock.latest_debt_to_equity : '0.00'}
             </span>
           </div>
         </div>
       </div>
 
-      <!-- Card Footer Action -->
-      <div class="pt-4 border-t border-[#1e2d42] flex items-center justify-between">
-        <div class="text-[11px] text-slate-400 flex items-center gap-1.5">
-          <i class="fa-solid fa-users text-blue-400 text-[10px]"></i>
-          <span>Promoter: <strong class="text-slate-200">${stock.latest_promoters || 'N/A'}%</strong></span>
+      <!-- Card Footer Action (Material 3 Tonal Button) -->
+      <div class="pt-4 border-t border-[#33353a] flex items-center justify-between">
+        <div class="text-[11px] text-[#8e9099] flex items-center gap-1.5">
+          <i class="fa-solid fa-users text-[#a8c7fa] text-[10px]"></i>
+          <span>Promoter: <strong class="text-[#e2e2e6]">${stock.latest_promoters || 'N/A'}%</strong></span>
         </div>
         <button 
           onclick="openDetailModal('${stock.symbol}')"
-          class="px-3.5 py-1.5 rounded-xl bg-blue-600/10 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/20 text-xs font-semibold flex items-center gap-1.5 transition-all"
+          class="px-4 py-1.5 rounded-full bg-[#004a77] hover:bg-[#005b94] text-[#d3e3fd] text-xs font-medium flex items-center gap-1.5 transition-all shadow-sm"
         >
           <span>Deep Dive</span>
           <i class="fa-solid fa-arrow-right text-[10px]"></i>
@@ -645,7 +616,7 @@ function renderTableView(stocks) {
     const isUndervalued = peDiscount <= 0;
 
     const tr = document.createElement('tr');
-    tr.className = 'cursor-pointer hover:bg-slate-800/40 transition-colors';
+    tr.className = 'cursor-pointer hover:bg-[#a8c7fa]/5 transition-colors';
     tr.onclick = (e) => {
       if (e.target.tagName !== 'BUTTON' && e.target.tagName !== 'I') {
         openDetailModal(stock.symbol);
@@ -654,39 +625,39 @@ function renderTableView(stocks) {
 
     tr.innerHTML = `
       <td>
-        <div class="font-bold text-white flex items-center gap-1.5">
+        <div class="font-semibold text-[#e2e2e6] flex items-center gap-1.5">
           <span>${stock.name}</span>
-          <span class="text-[10px] font-semibold text-blue-400 bg-blue-500/10 px-1.5 py-0.5 rounded border border-blue-500/20">
+          <span class="text-[10px] font-medium text-[#d3e3fd] bg-[#004a77] px-2 py-0.5 rounded-full border border-[#005b94]">
             ${stock.symbol}
           </span>
         </div>
-        <div class="text-[11px] text-slate-400 truncate max-w-[160px]">${stock.sector}</div>
+        <div class="text-[11px] text-[#8e9099] truncate max-w-[160px]">${stock.sector}</div>
       </td>
-      <td class="text-right font-black text-white price-val">₹${formatNumber(stock.current_price, 2)}</td>
-      <td class="text-right font-bold ${isUp ? 'text-emerald-400' : 'text-rose-400'}">
+      <td class="text-right font-black text-[#e2e2e6] price-val">₹${formatNumber(stock.current_price, 2)}</td>
+      <td class="text-right font-bold ${isUp ? 'text-[#6dd58c]' : 'text-[#f28b82]'}">
         ${isUp ? '+' : ''}${stock.change_percent || 0}%
       </td>
-      <td class="text-right font-extrabold text-blue-400">
+      <td class="text-right font-black text-[#a8c7fa]">
         ${stock.pe ? stock.pe.toFixed(1) : 'N/A'}
       </td>
-      <td class="text-right font-semibold text-slate-300">
+      <td class="text-right font-semibold text-[#e2e2e6]">
         ${stock.sector_pe ? stock.sector_pe.toFixed(1) : 'N/A'}
-        <span class="text-[10px] block ${isUndervalued ? 'text-emerald-400' : 'text-amber-400'}">
+        <span class="text-[10px] block ${isUndervalued ? 'text-[#6dd58c]' : 'text-[#fdd663]'}">
           ${isUndervalued ? `-${Math.abs(peDiscount)}%` : `+${peDiscount}%`}
         </span>
       </td>
-      <td class="text-right font-bold text-emerald-400">${stock.roce ? stock.roce.toFixed(1) + '%' : 'N/A'}</td>
-      <td class="text-right font-bold text-teal-400">${stock.roe ? stock.roe.toFixed(1) + '%' : 'N/A'}</td>
-      <td class="text-center text-xs text-slate-300">
+      <td class="text-right font-bold text-[#6dd58c]">${stock.roce ? stock.roce.toFixed(1) + '%' : 'N/A'}</td>
+      <td class="text-right font-bold text-[#8ab4f8]">${stock.roe ? stock.roe.toFixed(1) + '%' : 'N/A'}</td>
+      <td class="text-center text-xs text-[#c4c6d0]">
         ₹${formatNumber(stock.low_52w, 0)} - ₹${formatNumber(stock.high_52w, 0)}
       </td>
-      <td class="text-center text-xs text-slate-300">
+      <td class="text-center text-xs text-[#c4c6d0]">
         ₹${formatNumber(stock.low_5y, 0)} - ₹${formatNumber(stock.high_5y, 0)}
       </td>
-      <td class="text-right font-semibold text-slate-300">${stock.latest_debt_to_equity !== null ? stock.latest_debt_to_equity : '0.00'}</td>
-      <td class="text-right font-bold text-blue-300">${stock.latest_promoters ? stock.latest_promoters + '%' : 'N/A'}</td>
+      <td class="text-right font-semibold text-[#c4c6d0]">${stock.latest_debt_to_equity !== null ? stock.latest_debt_to_equity : '0.00'}</td>
+      <td class="text-right font-bold text-[#a8c7fa]">${stock.latest_promoters ? stock.latest_promoters + '%' : 'N/A'}</td>
       <td class="text-center">
-        <button onclick="openDetailModal('${stock.symbol}')" class="px-2.5 py-1 rounded bg-blue-600/20 hover:bg-blue-600 text-blue-400 hover:text-white text-xs font-semibold transition-all">
+        <button onclick="openDetailModal('${stock.symbol}')" class="px-3 py-1 rounded-full bg-[#004a77] hover:bg-[#005b94] text-[#d3e3fd] text-xs font-medium transition-all shadow-sm">
           View
         </button>
       </td>
@@ -726,10 +697,10 @@ function renderCompareView() {
   stockDataStore.stocks.forEach((stock) => {
     const isSelected = stockDataStore.selectedForCompare.includes(stock.symbol);
     const pill = document.createElement('button');
-    pill.className = `px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
+    pill.className = `px-3.5 py-1 rounded-full text-xs font-medium transition-all ${
       isSelected
-        ? 'bg-teal-500 text-white shadow-sm'
-        : 'bg-[#152236] text-slate-400 hover:text-white border border-[#23354d]'
+        ? 'bg-[#a8c7fa] text-[#041e49] font-semibold shadow-sm'
+        : 'bg-[#191c20] text-[#c4c6d0] hover:text-white border border-[#44474e]'
     }`;
     pill.innerText = stock.symbol;
     pill.onclick = () => {
@@ -757,68 +728,60 @@ function renderCompareView() {
 
   selectedStocks.forEach((stock) => {
     const col = document.createElement('div');
-    col.className = 'glass-card rounded-2xl p-4 space-y-4';
+    col.className = 'glass-card rounded-3xl p-5 space-y-4';
     col.innerHTML = `
-      <div class="border-b border-[#223147] pb-3">
-        <h3 class="font-bold text-white text-base">${stock.name}</h3>
-        <span class="text-xs font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">${stock.symbol}</span>
-        <div class="text-xl font-black text-white mt-2">₹${formatNumber(stock.current_price, 2)}</div>
-        <div class="text-xs font-bold text-slate-400">Sector: ${stock.sector}</div>
+      <div class="border-b border-[#33353a] pb-3">
+        <h3 class="font-semibold text-[#e2e2e6] text-base">${stock.name}</h3>
+        <span class="text-xs font-medium text-[#d3e3fd] bg-[#004a77] px-2.5 py-0.5 rounded-full border border-[#005b94]">${stock.symbol}</span>
+        <div class="text-xl font-black text-[#e2e2e6] mt-2">₹${formatNumber(stock.current_price, 2)}</div>
+        <div class="text-xs font-medium text-[#8e9099]">Sector: ${stock.sector}</div>
       </div>
 
       <div class="space-y-2.5 text-xs">
-        <div class="flex justify-between py-1 border-b border-[#1c293d]">
-          <span class="text-slate-400">Live P/E</span>
-          <span class="font-bold text-blue-400">${stock.pe ? stock.pe.toFixed(2) : 'N/A'}</span>
+        <div class="flex justify-between py-1 border-b border-[#33353a]">
+          <span class="text-[#8e9099]">Live P/E</span>
+          <span class="font-bold text-[#a8c7fa]">${stock.pe ? stock.pe.toFixed(2) : 'N/A'}</span>
         </div>
-        <div class="flex justify-between py-1 border-b border-[#1c293d]">
-          <span class="text-slate-400">Sector P/E</span>
-          <span class="font-bold text-slate-300">${stock.sector_pe ? stock.sector_pe.toFixed(2) : 'N/A'}</span>
+        <div class="flex justify-between py-1 border-b border-[#33353a]">
+          <span class="text-[#8e9099]">Sector P/E</span>
+          <span class="font-bold text-[#e2e2e6]">${stock.sector_pe ? stock.sector_pe.toFixed(2) : 'N/A'}</span>
         </div>
-        <div class="flex justify-between py-1 border-b border-[#1c293d]">
-          <span class="text-slate-400">ROCE</span>
-          <span class="font-bold text-emerald-400">${stock.roce ? stock.roce + '%' : 'N/A'}</span>
+        <div class="flex justify-between py-1 border-b border-[#33353a]">
+          <span class="text-[#8e9099]">ROCE</span>
+          <span class="font-bold text-[#6dd58c]">${stock.roce ? stock.roce + '%' : 'N/A'}</span>
         </div>
-        <div class="flex justify-between py-1 border-b border-[#1c293d]">
-          <span class="text-slate-400">ROE</span>
-          <span class="font-bold text-teal-400">${stock.roe ? stock.roe + '%' : 'N/A'}</span>
+        <div class="flex justify-between py-1 border-b border-[#33353a]">
+          <span class="text-[#8e9099]">ROE</span>
+          <span class="font-bold text-[#8ab4f8]">${stock.roe ? stock.roe + '%' : 'N/A'}</span>
         </div>
-        <div class="flex justify-between py-1 border-b border-[#1c293d]">
-          <span class="text-slate-400">1Y Range</span>
-          <span class="font-medium text-slate-300">₹${formatNumber(stock.low_52w, 0)} - ₹${formatNumber(stock.high_52w, 0)}</span>
+        <div class="flex justify-between py-1 border-b border-[#33353a]">
+          <span class="text-[#8e9099]">1Y Range</span>
+          <span class="font-medium text-[#e2e2e6]">₹${formatNumber(stock.low_52w, 0)} - ₹${formatNumber(stock.high_52w, 0)}</span>
         </div>
-        <div class="flex justify-between py-1 border-b border-[#1c293d]">
-          <span class="text-slate-400">5Y Range</span>
-          <span class="font-medium text-slate-300">₹${formatNumber(stock.low_5y, 0)} - ₹${formatNumber(stock.high_5y, 0)}</span>
+        <div class="flex justify-between py-1 border-b border-[#33353a]">
+          <span class="text-[#8e9099]">5Y Range</span>
+          <span class="font-medium text-[#e2e2e6]">₹${formatNumber(stock.low_5y, 0)} - ₹${formatNumber(stock.high_5y, 0)}</span>
         </div>
-        <div class="flex justify-between py-1 border-b border-[#1c293d]">
-          <span class="text-slate-400">Latest Qtr Profit</span>
-          <span class="font-bold text-emerald-400">₹${formatNumber(stock.quarterly_profits?.[stock.quarterly_profits.length - 1]?.net_profit, 0)} Cr</span>
+        <div class="flex justify-between py-1 border-b border-[#33353a]">
+          <span class="text-[#8e9099]">Reserves</span>
+          <span class="font-bold text-[#6dd58c]">₹${formatNumber(stock.latest_reserves, 0)} Cr</span>
         </div>
-        <div class="flex justify-between py-1 border-b border-[#1c293d]">
-          <span class="text-slate-400">Latest Annual Profit</span>
-          <span class="font-bold text-emerald-400">₹${formatNumber(stock.yearly_profits?.[stock.yearly_profits.length - 1]?.net_profit, 0)} Cr</span>
-        </div>
-        <div class="flex justify-between py-1 border-b border-[#1c293d]">
-          <span class="text-slate-400">Reserves</span>
-          <span class="font-bold text-emerald-400">₹${formatNumber(stock.latest_reserves, 0)} Cr</span>
-        </div>
-        <div class="flex justify-between py-1 border-b border-[#1c293d]">
-          <span class="text-slate-400">Borrowings</span>
-          <span class="font-bold text-rose-400">₹${formatNumber(stock.latest_borrowings, 0)} Cr</span>
-        </div>
-        <div class="flex justify-between py-1 border-b border-[#1c293d]">
-          <span class="text-slate-400">Debt / Equity</span>
-          <span class="font-bold text-amber-400">${stock.latest_debt_to_equity}</span>
+        <div class="flex justify-between py-1 border-b border-[#33353a]">
+          <span class="text-[#8e9099]">Borrowings</span>
+          <span class="font-bold text-[#f28b82]">₹${formatNumber(stock.latest_borrowings, 0)} Cr</span>
         </div>
         <div class="flex justify-between py-1">
-          <span class="text-slate-400">Promoter Stake</span>
-          <span class="font-bold text-blue-300">${stock.latest_promoters ? stock.latest_promoters + '%' : 'N/A'}</span>
+          <span class="text-[#8e9099]">Promoters</span>
+          <span class="font-bold text-[#e2e2e6]">${stock.latest_promoters || 'N/A'}%</span>
         </div>
       </div>
 
-      <button onclick="openDetailModal('${stock.symbol}')" class="w-full py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition-colors">
-        Full Deep Dive
+      <button 
+        onclick="openDetailModal('${stock.symbol}')"
+        class="w-full py-2 rounded-full bg-[#004a77] hover:bg-[#005b94] text-[#d3e3fd] text-xs font-medium flex items-center justify-center gap-1.5 transition-all shadow-sm"
+      >
+        <span>Full Analysis</span>
+        <i class="fa-solid fa-arrow-right text-[10px]"></i>
       </button>
     `;
     cardsMatrix.appendChild(col);

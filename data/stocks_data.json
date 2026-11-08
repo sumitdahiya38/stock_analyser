@@ -1,27 +1,27 @@
 {
-  "last_updated": "2026-10-30 19:29:14 UTC",
-  "last_updated_iso": "2026-10-30T19:29:14.418202",
+  "last_updated": "2026-11-08 15:51:55 UTC",
+  "last_updated_iso": "2026-11-08T15:51:55.268989",
   "indices": {
     "NIFTY_50": {
       "symbol": "^NSEI",
-      "price": 23053.1,
-      "previous_close": 22698.8,
-      "change": 354.3,
-      "change_percent": 1.56,
-      "day_high": 23118.1,
-      "day_low": 22905.1,
-      "timestamp": 1793354471,
+      "price": 24986.4,
+      "previous_close": 24536.6,
+      "change": 449.8,
+      "change_percent": 1.83,
+      "day_high": 25131.85,
+      "day_low": 24985.3,
+      "timestamp": 1794132195,
       "name": "NIFTY 50"
     },
     "DOW_JONES": {
       "symbol": "^DJI",
-      "price": 51685.77,
-      "previous_close": 52342.56,
-      "change": -656.79,
-      "change_percent": -1.25,
-      "day_high": 52383.9,
-      "day_low": 51563.76,
-      "timestamp": 1793388522,
+      "price": 51285.73,
+      "previous_close": 51523.06,
+      "change": -237.33,
+      "change_percent": -0.46,
+      "day_high": 51662.26,
+      "day_low": 50992.61,
+      "timestamp": 1794001032,
       "name": "DOW JONES"
     }
   },
@@ -35,24 +35,23 @@
       "sector": "Capital Goods",
       "broad_sector": "Industrials",
       "industry": "Castings &amp; Forgings",
-      "current_price": 348.05,
-      "previous_close": 62.49,
-      "change": 285.56,
-      "change_percent": 456.97,
-      "pe": 38.89,
-      "sector_pe": 19.91,
+      "current_price": 367.65,
+      "previous_close": 367.55,
+      "change": 0.1,
+      "change_percent": 0.03,
+      "pe": 41.08,
+      "sector_pe": 30.35,
       "ttm_eps": 8.95,
-      "market_cap_cr": 3516.0,
+      "market_cap_cr": 3721.0,
       "roce": 32.3,
       "roe": 24.0,
-      "dividend_yield": 0.49,
+      "dividend_yield": 0.47,
       "book_value": 39.0,
       "high_52w": 390.9,
       "low_52w": 176.02,
       "high_5y": 390.9,
       "low_5y": 47.6,
       "sparkline_24m": [
-        171.85,
         182.18,
         163.23,
         200.25,
@@ -74,8 +73,9 @@
         309.95,
         349.8,
         377.2,
+        348.05,
         361.1,
-        348.05
+        367.65
       ],
       "quarterly_profits": [
         {
@@ -315,39 +315,39 @@
       "peers": [
         {
           "name": "Mayur Uniquoters",
-          "price": 715.45,
-          "pe": 15.0,
-          "market_cap": 3106.45
+          "price": 769.2,
+          "pe": 14.91,
+          "market_cap": 3342.37
         },
         {
           "name": "Bhartiya Intl.",
-          "price": 1017.6,
-          "pe": 53.42,
-          "market_cap": 1368.12
+          "price": 1107.1,
+          "pe": 57.95,
+          "market_cap": 1484.68
         },
         {
           "name": "Kothari Indl",
-          "price": 104.98,
+          "price": 133.78,
           "pe": null,
-          "market_cap": 1139.54
+          "market_cap": 1445.11
         },
         {
           "name": "Mirza Internatio",
-          "price": 25.87,
+          "price": 28.09,
           "pe": null,
-          "market_cap": 355.53
+          "market_cap": 388.2
         },
         {
           "name": "Superhouse Ltd",
-          "price": 144.2,
-          "pe": 19.91,
-          "market_cap": 155.32
+          "price": 149.61,
+          "pe": 21.16,
+          "market_cap": 164.95
         },
         {
-          "name": "Anka India",
-          "price": 18.2,
-          "pe": null,
-          "market_cap": 93.8
+          "name": "Zenith Exports",
+          "price": 186.57,
+          "pe": 347.41,
+          "market_cap": 100.75
         }
       ]
     },
@@ -359,17 +359,17 @@
       "sector": "Chemicals",
       "broad_sector": "Commodities",
       "industry": "Specialty Chemicals",
-      "current_price": 242.24,
-      "previous_close": 265.0,
-      "change": -22.76,
-      "change_percent": -8.59,
-      "pe": 11.75,
-      "sector_pe": 13.51,
+      "current_price": 250.67,
+      "previous_close": 259.59,
+      "change": -8.92,
+      "change_percent": -3.44,
+      "pe": 12.16,
+      "sector_pe": 13.98,
       "ttm_eps": 20.62,
-      "market_cap_cr": 2506.0,
+      "market_cap_cr": 2594.0,
       "roce": 31.0,
       "roe": 21.8,
-      "dividend_yield": 0.72,
+      "dividend_yield": 0.7,
       "book_value": 97.9,
       "high_52w": 317.3,
       "low_52w": 185.15,
@@ -396,8 +396,9 @@
         268.15,
         276.5,
         249.5,
-        246.26,
-        242.24
+        242.24,
+        251.08,
+        250.67
       ],
       "quarterly_profits": [
         {
@@ -644,24 +645,23 @@
       "sector": "Automobile and Auto Components",
       "broad_sector": "Consumer Discretionary",
       "industry": "Auto Components &amp; Equipments",
-      "current_price": 335.5,
-      "previous_close": 172.9,
-      "change": 162.6,
-      "change_percent": 94.04,
-      "pe": 30.64,
-      "sector_pe": 44.29,
-      "ttm_eps": 10.95,
-      "market_cap_cr": 28509.0,
+      "current_price": 366.35,
+      "previous_close": 362.5,
+      "change": 3.85,
+      "change_percent": 1.06,
+      "pe": 29.78,
+      "sector_pe": 45.64,
+      "ttm_eps": 12.3,
+      "market_cap_cr": 31140.0,
       "roce": 8.54,
       "roe": 5.97,
-      "dividend_yield": 0.6,
-      "book_value": 164.0,
+      "dividend_yield": 0.55,
+      "book_value": 163.0,
       "high_52w": 496.4,
       "low_52w": 287.0,
       "high_5y": 620.35,
       "low_5y": 130.25,
       "sparkline_24m": [
-        416.55,
         374.5,
         347.8,
         360.45,
@@ -683,18 +683,11 @@
         449.8,
         440.25,
         412.6,
-        344.6,
-        335.5
+        335.5,
+        357.35,
+        366.35
       ],
       "quarterly_profits": [
-        {
-          "quarter": "Jun 2025",
-          "sales": 4695.0,
-          "operating_profit": 538.0,
-          "opm": "11%",
-          "net_profit": 275.0,
-          "eps": 3.21
-        },
         {
           "quarter": "Sep 2025",
           "sales": 4365.0,
@@ -726,6 +719,14 @@
           "opm": "11%",
           "net_profit": 351.0,
           "eps": 4.12
+        },
+        {
+          "quarter": "Sep 2026",
+          "sales": 5292.0,
+          "operating_profit": 562.0,
+          "opm": "11%",
+          "net_profit": 287.0,
+          "eps": 3.37
         }
       ],
       "yearly_profits": [
@@ -763,24 +764,14 @@
         },
         {
           "year": "Return on Equity",
-          "sales": 18829.0,
-          "operating_profit": 1953.0,
-          "opm": "10%",
-          "net_profit": 937.0,
-          "eps": 10.95
+          "sales": 19756.0,
+          "operating_profit": 2123.0,
+          "opm": "11%",
+          "net_profit": 1050.0,
+          "eps": 12.3
         }
       ],
       "balance_sheet": [
-        {
-          "period": "Mar 2022",
-          "equity_capital": 85.0,
-          "reserves": 10499.0,
-          "borrowings": 520.0,
-          "total_liabilities": 13902.0,
-          "total_assets": 13902.0,
-          "net_worth": 10584.0,
-          "debt_to_equity": 0.05
-        },
         {
           "period": "Mar 2023",
           "equity_capital": 85.0,
@@ -820,11 +811,21 @@
           "total_assets": 21218.0,
           "net_worth": 13905.0,
           "debt_to_equity": 0.11
+        },
+        {
+          "period": "Sep 2026",
+          "equity_capital": 85.0,
+          "reserves": 13764.0,
+          "borrowings": 1617.0,
+          "total_liabilities": 21191.0,
+          "total_assets": 21191.0,
+          "net_worth": 13849.0,
+          "debt_to_equity": 0.12
         }
       ],
-      "latest_reserves": 13820.0,
-      "latest_borrowings": 1575.0,
-      "latest_debt_to_equity": 0.11,
+      "latest_reserves": 13764.0,
+      "latest_borrowings": 1617.0,
+      "latest_debt_to_equity": 0.12,
       "shareholding_patterns": [
         {
           "quarter": "Mar 2018",
@@ -924,39 +925,39 @@
       "peers": [
         {
           "name": "Sun Pharma.Inds.",
-          "price": 1777.7,
-          "pe": 122.06,
-          "market_cap": 426057.99
+          "price": 1915.1,
+          "pe": 131.65,
+          "market_cap": 459496.63
         },
         {
           "name": "Divi&#x27;s Lab.",
-          "price": 9780.0,
-          "pe": 87.23,
-          "market_cap": 259870.29
+          "price": 11080.25,
+          "pe": 86.03,
+          "market_cap": 294145.83
         },
         {
           "name": "Torrent Pharma.",
-          "price": 4613.4,
-          "pe": 81.11,
-          "market_cap": 176090.23
+          "price": 4773.0,
+          "pe": 83.67,
+          "market_cap": 181549.57
         },
         {
           "name": "Laurus Labs",
-          "price": 2405.5,
-          "pe": 96.96,
-          "market_cap": 129914.21
+          "price": 2370.0,
+          "pe": 95.52,
+          "market_cap": 128054.01
         },
         {
           "name": "Zydus Lifesci.",
-          "price": 1245.5,
-          "pe": 25.48,
-          "market_cap": 124071.49
+          "price": 1200.0,
+          "pe": 26.45,
+          "market_cap": 119700.47
         },
         {
           "name": "Dr Reddy&#x27;s Labs",
-          "price": 1352.0,
-          "pe": 40.5,
-          "market_cap": 113396.79
+          "price": 1370.0,
+          "pe": 40.89,
+          "market_cap": 114432.19
         }
       ]
     },
@@ -968,24 +969,23 @@
       "sector": "Capital Goods",
       "broad_sector": "Industrials",
       "industry": "Heavy Electrical Equipment",
-      "current_price": 10351.0,
-      "previous_close": 1496.9,
-      "change": 8854.1,
-      "change_percent": 591.5,
-      "pe": 32.39,
-      "sector_pe": 33.08,
+      "current_price": 9894.0,
+      "previous_close": 9939.0,
+      "change": -45.0,
+      "change_percent": -0.45,
+      "pe": 30.96,
+      "sector_pe": 36.81,
       "ttm_eps": 319.54,
-      "market_cap_cr": 10481.0,
+      "market_cap_cr": 10010.0,
       "roce": 23.5,
       "roe": 17.4,
-      "dividend_yield": 0.97,
+      "dividend_yield": 1.03,
       "book_value": 1845.0,
       "high_52w": 12863.0,
       "low_52w": 6666.0,
       "high_5y": 14800.0,
-      "low_5y": 1490.6,
+      "low_5y": 1729.0,
       "sparkline_24m": [
-        10135.8,
         8358.15,
         6278.0,
         7136.35,
@@ -1007,8 +1007,9 @@
         9923.0,
         10908.5,
         10500.0,
-        10176.0,
-        10351.0
+        10351.0,
+        9731.0,
+        9894.0
       ],
       "quarterly_profits": [
         {
@@ -1248,39 +1249,39 @@
       "peers": [
         {
           "name": "Jio Financial",
-          "price": 204.5,
-          "pe": 78.88,
-          "market_cap": 135034.24
+          "price": 230.0,
+          "pe": 92.08,
+          "market_cap": 157622.24
         },
         {
           "name": "Aditya Birla Cap",
-          "price": 369.45,
-          "pe": 22.59,
-          "market_cap": 100692.03
+          "price": 397.0,
+          "pe": 24.4,
+          "market_cap": 108704.73
         },
         {
           "name": "Tata Inv.Corpn.",
-          "price": 562.8,
-          "pe": 66.16,
-          "market_cap": 28507.33
+          "price": 578.0,
+          "pe": 73.33,
+          "market_cap": 29244.12
         },
         {
           "name": "Chola Financial",
-          "price": 1351.3,
-          "pe": 9.5,
-          "market_cap": 25360.43
+          "price": 1476.3,
+          "pe": 10.02,
+          "market_cap": 27721.56
         },
         {
           "name": "TVS Holdings",
-          "price": 12194.0,
-          "pe": 11.32,
-          "market_cap": 24671.03
+          "price": 13299.0,
+          "pe": 12.36,
+          "market_cap": 26906.69
         },
         {
           "name": "Mah. Scooters",
-          "price": 11615.0,
-          "pe": 43.56,
-          "market_cap": 13274.28
+          "price": 12260.0,
+          "pe": 45.97,
+          "market_cap": 14011.41
         }
       ]
     },
@@ -1292,18 +1293,18 @@
       "sector": "Consumer Durables",
       "broad_sector": "Consumer Discretionary",
       "industry": "Gems, Jewellery And Watches",
-      "current_price": 293.9,
-      "previous_close": 229.1,
-      "change": 64.8,
-      "change_percent": 28.28,
-      "pe": 12.1,
-      "sector_pe": 13.91,
-      "ttm_eps": 24.29,
-      "market_cap_cr": 2264.0,
+      "current_price": 278.05,
+      "previous_close": 277.15,
+      "change": 0.9,
+      "change_percent": 0.32,
+      "pe": 11.77,
+      "sector_pe": 13.54,
+      "ttm_eps": 23.62,
+      "market_cap_cr": 2133.0,
       "roce": 33.9,
       "roe": 38.1,
       "dividend_yield": null,
-      "book_value": 78.0,
+      "book_value": 101.0,
       "high_52w": 437.95,
       "low_52w": 155.0,
       "high_5y": 437.95,
@@ -1323,25 +1324,18 @@
         217.78,
         246.85,
         308.9,
-        332.1,
-        293.9
+        293.9,
+        272.4,
+        278.05
       ],
       "quarterly_profits": [
-        {
-          "quarter": "Jun 2025",
-          "sales": 293.0,
-          "operating_profit": 38.0,
-          "opm": "13%",
-          "net_profit": 25.0,
-          "eps": 4.29
-        },
         {
           "quarter": "Sep 2025",
           "sales": 430.0,
           "operating_profit": 61.0,
           "opm": "14%",
           "net_profit": 44.0,
-          "eps": 5.71
+          "eps": 6.08
         },
         {
           "quarter": "Dec 2025",
@@ -1349,7 +1343,7 @@
           "operating_profit": 60.0,
           "opm": "9%",
           "net_profit": 40.0,
-          "eps": 5.23
+          "eps": 5.57
         },
         {
           "quarter": "Mar 2026",
@@ -1357,7 +1351,7 @@
           "operating_profit": 67.0,
           "opm": "10%",
           "net_profit": 52.0,
-          "eps": 6.77
+          "eps": 7.2
         },
         {
           "quarter": "Jun 2026",
@@ -1365,7 +1359,15 @@
           "operating_profit": 71.0,
           "opm": "10%",
           "net_profit": 50.0,
-          "eps": 6.58
+          "eps": 7.0
+        },
+        {
+          "quarter": "Sep 2026",
+          "sales": 746.0,
+          "operating_profit": 43.0,
+          "opm": "6%",
+          "net_profit": 30.0,
+          "eps": 3.85
         }
       ],
       "yearly_profits": [
@@ -1375,7 +1377,7 @@
           "operating_profit": 43.0,
           "opm": "6%",
           "net_profit": 20.0,
-          "eps": 3.44
+          "eps": 3.67
         },
         {
           "year": "Compounded Sales Growth",
@@ -1383,7 +1385,7 @@
           "operating_profit": 50.0,
           "opm": "7%",
           "net_profit": 27.0,
-          "eps": 4.66
+          "eps": 4.98
         },
         {
           "year": "Compounded Profit Growth",
@@ -1391,7 +1393,7 @@
           "operating_profit": 90.0,
           "opm": "8%",
           "net_profit": 54.0,
-          "eps": 9.41
+          "eps": 10.02
         },
         {
           "year": "Stock Price CAGR",
@@ -1399,28 +1401,18 @@
           "operating_profit": 199.0,
           "opm": "10%",
           "net_profit": 140.0,
-          "eps": 18.27
+          "eps": 19.44
         },
         {
           "year": "Return on Equity",
-          "sales": 2442.0,
-          "operating_profit": 259.0,
-          "opm": "11%",
-          "net_profit": 186.0,
-          "eps": 24.29
+          "sales": 2758.0,
+          "operating_profit": 241.0,
+          "opm": "9%",
+          "net_profit": 172.0,
+          "eps": 23.62
         }
       ],
       "balance_sheet": [
-        {
-          "period": "Mar 2022",
-          "equity_capital": 9.0,
-          "reserves": 41.0,
-          "borrowings": 144.0,
-          "total_liabilities": 214.0,
-          "total_assets": 214.0,
-          "net_worth": 50.0,
-          "debt_to_equity": 2.88
-        },
         {
           "period": "Mar 2023",
           "equity_capital": 9.0,
@@ -1460,11 +1452,21 @@
           "total_assets": 856.0,
           "net_worth": 598.0,
           "debt_to_equity": 0.36
+        },
+        {
+          "period": "Sep 2026",
+          "equity_capital": 77.0,
+          "reserves": 701.0,
+          "borrowings": 428.0,
+          "total_liabilities": 1264.0,
+          "total_assets": 1264.0,
+          "net_worth": 778.0,
+          "debt_to_equity": 0.55
         }
       ],
-      "latest_reserves": 526.0,
-      "latest_borrowings": 216.0,
-      "latest_debt_to_equity": 0.36,
+      "latest_reserves": 701.0,
+      "latest_borrowings": 428.0,
+      "latest_debt_to_equity": 0.55,
       "shareholding_patterns": [
         {
           "quarter": "Sep 2025",
@@ -1545,23 +1547,22 @@
       "broad_sector": "Information Technology",
       "industry": "Computers - Software &amp; Consulting",
       "current_price": 500.75,
-      "previous_close": 290.0,
-      "change": 210.75,
-      "change_percent": 72.67,
+      "previous_close": 509.0,
+      "change": -8.25,
+      "change_percent": -1.62,
       "pe": 46.76,
       "sector_pe": 53.77,
       "ttm_eps": 10.71,
-      "market_cap_cr": 784.0,
+      "market_cap_cr": 827.0,
       "roce": 40.2,
       "roe": 34.3,
       "dividend_yield": null,
       "book_value": 39.6,
-      "high_52w": 899.65,
+      "high_52w": 860.0,
       "low_52w": 327.6,
       "high_5y": 1697.0,
       "low_5y": 327.6,
       "sparkline_24m": [
-        766.25,
         1329.25,
         1480.8,
         1195.35,
@@ -1584,7 +1585,8 @@
         497.0,
         416.65,
         403.6,
-        373.3
+        373.0,
+        388.25
       ],
       "quarterly_profits": [
         {
@@ -1795,24 +1797,23 @@
       "sector": "Information Technology",
       "broad_sector": "Information Technology",
       "industry": "IT Enabled Services",
-      "current_price": 291.0,
-      "previous_close": 150.0,
-      "change": 141.0,
-      "change_percent": 94.0,
-      "pe": 20.19,
-      "sector_pe": 23.22,
-      "ttm_eps": 14.41,
-      "market_cap_cr": 330.0,
+      "current_price": 285.15,
+      "previous_close": 315.9,
+      "change": -30.75,
+      "change_percent": -9.73,
+      "pe": 18.97,
+      "sector_pe": 21.82,
+      "ttm_eps": 15.03,
+      "market_cap_cr": 324.0,
       "roce": 9.6,
       "roe": 6.89,
       "dividend_yield": null,
-      "book_value": 179.0,
+      "book_value": 180.0,
       "high_52w": 451.0,
       "low_52w": 226.05,
       "high_5y": 451.0,
       "low_5y": 77.95,
       "sparkline_24m": [
-        147.0,
         128.2,
         106.45,
         105.6,
@@ -1834,18 +1835,11 @@
         381.1,
         344.9,
         320.35,
-        303.5,
-        291.0
+        291.0,
+        315.9,
+        285.15
       ],
       "quarterly_profits": [
-        {
-          "quarter": "Mar 2024",
-          "sales": 15.23,
-          "operating_profit": 0.66,
-          "opm": "4.33%",
-          "net_profit": 0.87,
-          "eps": 1.74
-        },
         {
           "quarter": "Sep 2024",
           "sales": 22.19,
@@ -1877,19 +1871,19 @@
           "opm": "27.68%",
           "net_profit": 6.07,
           "eps": 5.49
+        },
+        {
+          "quarter": "Sep 2026",
+          "sales": 41.22,
+          "operating_profit": 2.96,
+          "opm": "7.18%",
+          "net_profit": 1.37,
+          "eps": 1.21
         }
       ],
       "yearly_profits": [
         {
-          "year": "Mar 2026",
-          "sales": 22.94,
-          "operating_profit": 2.66,
-          "opm": "11.60%",
-          "net_profit": 2.14,
-          "eps": 4.28
-        },
-        {
-          "year": "Compounded Sales Growth",
+          "year": "TTM",
           "sales": 36.59,
           "operating_profit": 4.9,
           "opm": "13.39%",
@@ -1897,7 +1891,7 @@
           "eps": 8.0
         },
         {
-          "year": "Compounded Profit Growth",
+          "year": "Compounded Sales Growth",
           "sales": 40.37,
           "operating_profit": 2.51,
           "opm": "6.22%",
@@ -1905,7 +1899,7 @@
           "eps": 3.6
         },
         {
-          "year": "Stock Price CAGR",
+          "year": "Compounded Profit Growth",
           "sales": 44.63,
           "operating_profit": 6.89,
           "opm": "15.44%",
@@ -1913,25 +1907,23 @@
           "eps": 5.96
         },
         {
-          "year": "Return on Equity",
+          "year": "Stock Price CAGR",
           "sales": 60.83,
           "operating_profit": 12.47,
           "opm": "20.50%",
           "net_profit": 8.08,
           "eps": 7.26
+        },
+        {
+          "year": "Return on Equity",
+          "sales": 73.99,
+          "operating_profit": 12.03,
+          "opm": "16.26%",
+          "net_profit": 7.44,
+          "eps": 6.7
         }
       ],
       "balance_sheet": [
-        {
-          "period": "Mar 2022",
-          "equity_capital": 0.01,
-          "reserves": 7.76,
-          "borrowings": 2.35,
-          "total_liabilities": 14.49,
-          "total_assets": 14.49,
-          "net_worth": 7.77,
-          "debt_to_equity": 0.3
-        },
         {
           "period": "Mar 2023",
           "equity_capital": 0.01,
@@ -1971,11 +1963,21 @@
           "total_assets": 230.92,
           "net_worth": 202.71,
           "debt_to_equity": 0.03
+        },
+        {
+          "period": "Sep 2026",
+          "equity_capital": 11.35,
+          "reserves": 192.53,
+          "borrowings": 4.43,
+          "total_liabilities": 225.04,
+          "total_assets": 225.04,
+          "net_worth": 203.88,
+          "debt_to_equity": 0.02
         }
       ],
-      "latest_reserves": 191.36,
-      "latest_borrowings": 6.15,
-      "latest_debt_to_equity": 0.03,
+      "latest_reserves": 192.53,
+      "latest_borrowings": 4.43,
+      "latest_debt_to_equity": 0.02,
       "shareholding_patterns": [
         {
           "quarter": "Dec 2024",

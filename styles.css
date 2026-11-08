@@ -1,29 +1,63 @@
-/* Custom Styling & Polish for Stock Analyzer Dashboard */
+/* Google Material Design 3 (M3) System for EquiPulse Stock Analyzer */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
 
 :root {
-  --bg-primary: #0a0f1d;
-  --bg-secondary: #111827;
-  --bg-card: #162032;
-  --bg-card-hover: #1e293b;
-  --border-color: #273549;
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --accent-blue: #3b82f6;
-  --accent-teal: #14b8a6;
-  --accent-green: #10b981;
-  --accent-red: #ef4444;
-  --accent-amber: #f59e0b;
-  --accent-purple: #8b5cf6;
+  /* Material 3 Dark Color Tokens */
+  --md-sys-color-background: #111318;
+  --md-sys-color-surface: #111318;
+  --md-sys-color-surface-dim: #0e1014;
+  --md-sys-color-surface-container-lowest: #0c0e12;
+  --md-sys-color-surface-container-low: #191c20;
+  --md-sys-color-surface-container: #1d2024;
+  --md-sys-color-surface-container-high: #282a2f;
+  --md-sys-color-surface-container-highest: #33353a;
+
+  --md-sys-color-on-surface: #e2e2e6;
+  --md-sys-color-on-surface-variant: #c4c6d0;
+  --md-sys-color-outline: #8e9099;
+  --md-sys-color-outline-variant: #44474e;
+
+  /* Primary Blue Palette */
+  --md-sys-color-primary: #a8c7fa;
+  --md-sys-color-on-primary: #041e49;
+  --md-sys-color-primary-container: #004a77;
+  --md-sys-color-on-primary-container: #d3e3fd;
+
+  /* Secondary / Tertiary */
+  --md-sys-color-secondary: #bec6dc;
+  --md-sys-color-secondary-container: #2b3e52;
+  --md-sys-color-on-secondary-container: #d9e2ff;
+
+  --md-sys-color-tertiary: #6dd58c;
+  --md-sys-color-on-tertiary: #0a3818;
+  --md-sys-color-tertiary-container: #0e4f24;
+  --md-sys-color-on-tertiary-container: #bbf7d0;
+
+  /* Financial Indicators (Gains & Losses) */
+  --md-sys-color-gain: #6dd58c;
+  --md-sys-color-loss: #f28b82;
+  --md-sys-color-warning: #fdd663;
+
+  /* Material 3 Elevation Shadows */
+  --md-elevation-1: 0 1px 3px 1px rgba(0, 0, 0, 0.25), 0 1px 2px 0 rgba(0, 0, 0, 0.35);
+  --md-elevation-2: 0 2px 6px 2px rgba(0, 0, 0, 0.28), 0 1px 2px 0 rgba(0, 0, 0, 0.35);
+  --md-elevation-3: 0 4px 12px 3px rgba(0, 0, 0, 0.35), 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+  --md-elevation-4: 0 6px 16px 4px rgba(0, 0, 0, 0.4), 0 2px 4px 0 rgba(0, 0, 0, 0.45);
+
+  /* Material Motion Easings */
+  --md-motion-standard: cubic-bezier(0.2, 0.0, 0, 1.0);
+  --md-motion-emphasized: cubic-bezier(0.05, 0.7, 0.1, 1.0);
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--md-sys-color-background);
+  color: var(--md-sys-color-on-surface);
   min-height: 100vh;
   touch-action: pan-x pan-y;
   -webkit-text-size-adjust: 100%;
   overscroll-behavior-y: none;
+  letter-spacing: 0.01em;
 }
 
 html {
@@ -36,24 +70,119 @@ button, a, input, select, textarea {
   touch-action: manipulation;
 }
 
-/* Glassmorphism accents */
+/* Material 3 Surface Panel (replaces generic glass-panel) */
 .glass-panel {
-  background: rgba(22, 32, 50, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: var(--md-sys-color-surface-container);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  box-shadow: var(--md-elevation-1);
+  border-radius: 24px;
 }
 
+/* Material 3 Card (replaces glass-card) */
 .glass-card {
-  background: linear-gradient(135deg, rgba(26, 38, 59, 0.8) 0%, rgba(18, 27, 43, 0.9) 100%);
-  border: 1px solid var(--border-color);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: var(--md-sys-color-surface-container);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 24px;
+  box-shadow: var(--md-elevation-1);
+  transition: background-color 0.2s var(--md-motion-standard),
+              box-shadow 0.2s var(--md-motion-standard),
+              transform 0.2s var(--md-motion-standard),
+              border-color 0.2s var(--md-motion-standard);
 }
 
 .glass-card:hover {
+  background-color: var(--md-sys-color-surface-container-high);
+  box-shadow: var(--md-elevation-2);
   transform: translateY(-2px);
-  border-color: rgba(59, 130, 246, 0.4);
-  box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.1);
+  border-color: rgba(168, 199, 250, 0.45);
+}
+
+/* Material 3 State Layers & Ripple Effect */
+.md-state-layer {
+  position: relative;
+  overflow: hidden;
+}
+.md-state-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: currentColor;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+  border-radius: inherit;
+}
+.md-state-layer:hover::after {
+  opacity: 0.08;
+}
+.md-state-layer:active::after {
+  opacity: 0.16;
+}
+
+/* Material 3 Badges & Chips */
+.md-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s var(--md-motion-standard);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background-color: var(--md-sys-color-surface-container-low);
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.md-chip:hover {
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+}
+
+.md-chip.active {
+  background-color: var(--md-sys-color-primary-container);
+  border-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary-container);
+  font-weight: 600;
+  box-shadow: var(--md-elevation-1);
+}
+
+/* Material 3 Buttons */
+.md-btn-filled {
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  border-radius: 9999px;
+  font-weight: 600;
+  box-shadow: var(--md-elevation-1);
+  transition: all 0.2s var(--md-motion-standard);
+}
+.md-btn-filled:hover {
+  box-shadow: var(--md-elevation-2);
+  filter: brightness(1.06);
+}
+
+.md-btn-tonal {
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: all 0.2s var(--md-motion-standard);
+}
+.md-btn-tonal:hover {
+  background-color: #005b94;
+}
+
+.md-btn-outlined {
+  background-color: transparent;
+  color: var(--md-sys-color-on-surface);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: all 0.2s var(--md-motion-standard);
+}
+.md-btn-outlined:hover {
+  background-color: var(--md-sys-color-surface-container-high);
 }
 
 /* Pulse dot animation */
@@ -63,7 +192,7 @@ button, a, input, select, textarea {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #10b981;
+  background-color: var(--md-sys-color-gain);
 }
 
 .pulse-dot::after {
@@ -74,7 +203,7 @@ button, a, input, select, textarea {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background-color: #10b981;
+  background-color: var(--md-sys-color-gain);
   opacity: 0.6;
   animation: pulse-ring 1.8s cubic-bezier(0.24, 0, 0.38, 1) infinite;
 }
@@ -86,12 +215,12 @@ button, a, input, select, textarea {
 
 /* Flash price update animation */
 @keyframes flash-green {
-  0% { background-color: rgba(16, 185, 129, 0.3); }
+  0% { background-color: rgba(109, 213, 140, 0.35); }
   100% { background-color: transparent; }
 }
 
 @keyframes flash-red {
-  0% { background-color: rgba(239, 68, 68, 0.3); }
+  0% { background-color: rgba(242, 139, 130, 0.35); }
   100% { background-color: transparent; }
 }
 
@@ -103,11 +232,11 @@ button, a, input, select, textarea {
   animation: flash-red 1s ease-out;
 }
 
-/* Custom Range Meter Bar */
+/* Material Linear Progress Meter (Range Bar) */
 .range-bar-track {
   height: 6px;
-  background: #273549;
-  border-radius: 4px;
+  background-color: var(--md-sys-color-surface-container-highest);
+  border-radius: 9999px;
   position: relative;
   overflow: visible;
 }
@@ -117,8 +246,8 @@ button, a, input, select, textarea {
   top: 0;
   left: 0;
   height: 100%;
-  background: linear-gradient(90deg, #3b82f6, #10b981);
-  border-radius: 4px;
+  background-color: var(--md-sys-color-primary);
+  border-radius: 9999px;
 }
 
 .range-bar-pin {
@@ -126,68 +255,104 @@ button, a, input, select, textarea {
   top: -4px;
   width: 14px;
   height: 14px;
-  background: #ffffff;
-  border: 2px solid #3b82f6;
+  background-color: #ffffff;
+  border: 3px solid var(--md-sys-color-primary);
   border-radius: 50%;
   transform: translateX(-50%);
-  box-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
-  transition: left 0.4s ease;
+  box-shadow: var(--md-elevation-1);
+  transition: left 0.4s var(--md-motion-standard);
 }
 
-/* Custom Scrollbar */
+/* Material Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #0d1322;
+  background: var(--md-sys-color-surface-dim);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #273549;
-  border-radius: 4px;
+  background: var(--md-sys-color-surface-container-highest);
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3b82f6;
+  background: var(--md-sys-color-outline);
 }
 
-/* Tab active highlight */
+/* Hide scrollbar for clean horizontal chip carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Material Tab */
 .tab-btn.active {
-  color: #3b82f6;
-  border-bottom: 2px solid #3b82f6;
-  background: rgba(59, 130, 246, 0.08);
+  color: var(--md-sys-color-primary);
+  border-bottom: 2px solid var(--md-sys-color-primary);
+  background-color: rgba(168, 199, 250, 0.08);
 }
 
-/* Table styling */
+/* Material Table styling */
 .finance-table th {
-  background: #111a2c;
-  color: #94a3b8;
+  background: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface-variant);
   font-weight: 600;
   text-transform: uppercase;
   font-size: 0.72rem;
   letter-spacing: 0.05em;
-  padding: 10px 14px;
-  border-bottom: 1px solid #273549;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
 }
 
 .finance-table td {
-  padding: 10px 14px;
-  border-bottom: 1px solid rgba(39, 53, 73, 0.5);
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(68, 71, 78, 0.4);
   font-size: 0.875rem;
 }
 
 .finance-table tr:hover td {
-  background: rgba(30, 41, 59, 0.5);
+  background: rgba(168, 199, 250, 0.05);
 }
 
-/* Tooltip */
+/* Material Tooltip */
 .has-tooltip {
   position: relative;
 }
 
-/* Toast Notification */
+.tooltip-content {
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background-color: var(--md-sys-color-surface-container-highest);
+  color: var(--md-sys-color-on-surface);
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  box-shadow: var(--md-elevation-2);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s var(--md-motion-standard);
+  z-index: 50;
+  pointer-events: none;
+}
+
+.has-tooltip:hover .tooltip-content {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Material 3 Snackbar / Toast Notification */
 .toast-container {
   position: fixed;
   bottom: 24px;
@@ -201,48 +366,26 @@ button, a, input, select, textarea {
 
 .toast {
   pointer-events: auto;
-  background: rgba(19, 29, 46, 0.95);
-  backdrop-filter: blur(8px);
-  color: #ffffff;
-  padding: 10px 18px;
-  border-radius: 12px;
-  border: 1px solid rgba(59, 130, 246, 0.3);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(59, 130, 246, 0.2);
+  background-color: var(--md-sys-color-surface-container-highest);
+  color: var(--md-sys-color-on-surface);
+  padding: 12px 20px;
+  border-radius: 16px;
+  border: 1px solid var(--md-sys-color-outline-variant);
+  box-shadow: var(--md-elevation-3);
   font-size: 0.8125rem;
-  font-weight: 600;
+  font-weight: 500;
   display: flex;
   align-items: center;
-  gap: 10px;
-  animation: toast-in 0.3s cubic-bezier(0.16, 1, 0.3, 1), toast-out 0.3s cubic-bezier(0.16, 1, 0.3, 1) 2.7s forwards;
+  gap: 12px;
+  animation: toast-in 0.3s var(--md-motion-emphasized), toast-out 0.3s var(--md-motion-emphasized) 2.7s forwards;
 }
 
 @keyframes toast-in {
-  from { transform: translateY(20px) scale(0.95); opacity: 0; }
+  from { transform: translateY(24px) scale(0.95); opacity: 0; }
   to { transform: translateY(0) scale(1); opacity: 1; }
 }
 
 @keyframes toast-out {
   from { transform: translateY(0) scale(1); opacity: 1; }
-  to { transform: translateY(10px) scale(0.95); opacity: 0; }
+  to { transform: translateY(12px) scale(0.95); opacity: 0; }
 }
-
-.tooltip-content {
-  position: absolute;
-  bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%) translateY(4px);
-  background: #1e293b;
-  color: #f8fafc;
-  font-size: 0.75rem;
-  padding: 4px 8px;
-  border-radius: 4px;
-  white-space: nowrap;
-  border: 1px solid #334155;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.2s ease;
-  z-index: 50;
-  pointer-events: none;
-}
-

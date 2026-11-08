@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-11-08 15:51:55 UTC",
-  "last_updated_iso": "2026-11-08T15:51:55.268989",
+  "last_updated": "2026-11-08 10:29:50 UTC",
+  "last_updated_iso": "2026-11-08T10:29:50.082898",
   "indices": {
     "NIFTY_50": {
       "symbol": "^NSEI",
@@ -9,7 +9,7 @@
       "change": 449.8,
       "change_percent": 1.83,
       "day_high": 25131.85,
-      "day_low": 24985.3,
+      "day_low": 24985.4,
       "timestamp": 1794132195,
       "name": "NIFTY 50"
     },
@@ -40,12 +40,12 @@
       "change": 0.1,
       "change_percent": 0.03,
       "pe": 41.08,
-      "sector_pe": 30.35,
+      "sector_pe": 30.24,
       "ttm_eps": 8.95,
-      "market_cap_cr": 3721.0,
+      "market_cap_cr": 3769.0,
       "roce": 32.3,
       "roe": 24.0,
-      "dividend_yield": 0.47,
+      "dividend_yield": 0.46,
       "book_value": 39.0,
       "high_52w": 390.9,
       "low_52w": 176.02,
@@ -315,33 +315,33 @@
       "peers": [
         {
           "name": "Mayur Uniquoters",
-          "price": 769.2,
-          "pe": 14.91,
-          "market_cap": 3342.37
+          "price": 768.3,
+          "pe": 14.89,
+          "market_cap": 3338.46
         },
         {
           "name": "Bhartiya Intl.",
-          "price": 1107.1,
-          "pe": 57.95,
-          "market_cap": 1484.68
+          "price": 1111.05,
+          "pe": 58.16,
+          "market_cap": 1489.98
         },
         {
           "name": "Kothari Indl",
-          "price": 133.78,
+          "price": 134.75,
           "pe": null,
-          "market_cap": 1445.11
+          "market_cap": 1455.59
         },
         {
           "name": "Mirza Internatio",
-          "price": 28.09,
+          "price": 28.0,
           "pe": null,
-          "market_cap": 388.2
+          "market_cap": 386.96
         },
         {
           "name": "Superhouse Ltd",
-          "price": 149.61,
-          "pe": 21.16,
-          "market_cap": 164.95
+          "price": 148.0,
+          "pe": 20.93,
+          "market_cap": 163.17
         },
         {
           "name": "Zenith Exports",
@@ -366,10 +366,10 @@
       "pe": 12.16,
       "sector_pe": 13.98,
       "ttm_eps": 20.62,
-      "market_cap_cr": 2594.0,
+      "market_cap_cr": 2566.0,
       "roce": 31.0,
       "roe": 21.8,
-      "dividend_yield": 0.7,
+      "dividend_yield": 0.71,
       "book_value": 97.9,
       "high_52w": 317.3,
       "low_52w": 185.15,
@@ -652,7 +652,7 @@
       "pe": 29.78,
       "sector_pe": 45.64,
       "ttm_eps": 12.3,
-      "market_cap_cr": 31140.0,
+      "market_cap_cr": 31144.0,
       "roce": 8.54,
       "roe": 5.97,
       "dividend_yield": 0.55,
@@ -937,9 +937,9 @@
         },
         {
           "name": "Torrent Pharma.",
-          "price": 4773.0,
-          "pe": 83.67,
-          "market_cap": 181549.57
+          "price": 4771.0,
+          "pe": 83.63,
+          "market_cap": 181473.5
         },
         {
           "name": "Laurus Labs",
@@ -955,9 +955,9 @@
         },
         {
           "name": "Dr Reddy&#x27;s Labs",
-          "price": 1370.0,
-          "pe": 40.89,
-          "market_cap": 114432.19
+          "price": 1369.0,
+          "pe": 40.86,
+          "market_cap": 114348.66
         }
       ]
     },
@@ -974,9 +974,9 @@
       "change": -45.0,
       "change_percent": -0.45,
       "pe": 30.96,
-      "sector_pe": 36.81,
+      "sector_pe": 36.8,
       "ttm_eps": 319.54,
-      "market_cap_cr": 10010.0,
+      "market_cap_cr": 10034.0,
       "roce": 23.5,
       "roe": 17.4,
       "dividend_yield": 1.03,
@@ -1267,9 +1267,9 @@
         },
         {
           "name": "Chola Financial",
-          "price": 1476.3,
-          "pe": 10.02,
-          "market_cap": 27721.56
+          "price": 1480.95,
+          "pe": 10.05,
+          "market_cap": 27808.88
         },
         {
           "name": "TVS Holdings",
@@ -1279,9 +1279,9 @@
         },
         {
           "name": "Mah. Scooters",
-          "price": 12260.0,
-          "pe": 45.97,
-          "market_cap": 14011.41
+          "price": 12286.75,
+          "pe": 46.07,
+          "market_cap": 14041.98
         }
       ]
     },

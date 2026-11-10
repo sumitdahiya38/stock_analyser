@@ -1,13 +1,13 @@
 {
-  "last_updated": "2026-11-09 20:17:06 UTC",
-  "last_updated_iso": "2026-11-09T20:17:06.858159",
+  "last_updated": "2026-11-10 17:22:50 UTC",
+  "last_updated_iso": "2026-11-10T17:22:50.633154",
   "indices": {
     "NIFTY_50": {
       "symbol": "^NSEI",
       "price": 25044.65,
-      "previous_close": 24986.4,
-      "change": 58.25,
-      "change_percent": 0.23,
+      "previous_close": 25030.3,
+      "change": 14.35,
+      "change_percent": 0.06,
       "day_high": 25084.05,
       "day_low": 24838.75,
       "timestamp": 1794218487,
@@ -15,13 +15,13 @@
     },
     "DOW_JONES": {
       "symbol": "^DJI",
-      "price": 52519.27,
-      "previous_close": 51285.73,
-      "change": 1233.54,
-      "change_percent": 2.41,
-      "day_high": 52574.34,
-      "day_low": 51643.01,
-      "timestamp": 1794255392,
+      "price": 52130.02,
+      "previous_close": 52389.75,
+      "change": -259.73,
+      "change_percent": -0.5,
+      "day_high": 52291.77,
+      "day_low": 51977.08,
+      "timestamp": 1794331336,
       "name": "DOW JONES"
     }
   },
@@ -40,9 +40,9 @@
       "change": 7.25,
       "change_percent": 1.97,
       "pe": 41.89,
-      "sector_pe": 20.81,
+      "sector_pe": 20.96,
       "ttm_eps": 8.95,
-      "market_cap_cr": 3798.0,
+      "market_cap_cr": 3794.0,
       "roce": 32.3,
       "roe": 24.0,
       "dividend_yield": 0.46,
@@ -316,32 +316,32 @@
         {
           "name": "Mayur Uniquoters",
           "price": 746.3,
-          "pe": 14.47,
-          "market_cap": 3244.97
+          "pe": 14.46,
+          "market_cap": 3242.87
         },
         {
           "name": "Bhartiya Intl.",
           "price": 1118.9,
-          "pe": 59.84,
-          "market_cap": 1532.47
+          "pe": 58.59,
+          "market_cap": 1500.49
         },
         {
           "name": "Kothari Indl",
           "price": 136.65,
           "pe": null,
-          "market_cap": 1469.31
+          "market_cap": 1476.12
         },
         {
           "name": "Mirza Internatio",
           "price": 27.7,
           "pe": null,
-          "market_cap": 383.09
+          "market_cap": 382.82
         },
         {
           "name": "Superhouse Ltd",
           "price": 148.32,
-          "pe": 20.81,
-          "market_cap": 162.29
+          "pe": 20.96,
+          "market_cap": 163.52
         },
         {
           "name": "Zenith Exports",
@@ -366,7 +366,7 @@
       "pe": 12.12,
       "sector_pe": 13.94,
       "ttm_eps": 20.62,
-      "market_cap_cr": 2583.0,
+      "market_cap_cr": 2586.0,
       "roce": 31.0,
       "roe": 21.8,
       "dividend_yield": 0.7,
@@ -650,9 +650,9 @@
       "change": 18.7,
       "change_percent": 5.1,
       "pe": 31.3,
-      "sector_pe": 47.36,
+      "sector_pe": 47.25,
       "ttm_eps": 12.3,
-      "market_cap_cr": 32725.0,
+      "market_cap_cr": 32729.0,
       "roce": 8.54,
       "roe": 5.97,
       "dividend_yield": 0.52,
@@ -926,20 +926,20 @@
         {
           "name": "Sun Pharma.Inds.",
           "price": 1904.5,
-          "pe": 130.9,
-          "market_cap": 456929.49
+          "pe": 130.91,
+          "market_cap": 456953.35
         },
         {
           "name": "Divi&#x27;s Lab.",
           "price": 11565.5,
-          "pe": 89.98,
-          "market_cap": 307491.82
+          "pe": 89.85,
+          "market_cap": 307027.69
         },
         {
           "name": "Torrent Pharma.",
           "price": 4780.0,
-          "pe": 83.78,
-          "market_cap": 181892.05
+          "pe": 83.75,
+          "market_cap": 181815.84
         },
         {
           "name": "Laurus Labs",
@@ -950,14 +950,14 @@
         {
           "name": "Zydus Lifesci.",
           "price": 1215.9,
-          "pe": 26.76,
-          "market_cap": 121235.95
+          "pe": 26.77,
+          "market_cap": 121286.49
         },
         {
           "name": "Dr Reddy&#x27;s Labs",
           "price": 1385.0,
-          "pe": 41.35,
-          "market_cap": 115769.61
+          "pe": 41.32,
+          "market_cap": 115685.11
         }
       ]
     },
@@ -974,9 +974,9 @@
       "change": -36.0,
       "change_percent": -0.36,
       "pe": 30.85,
-      "sector_pe": 35.11,
+      "sector_pe": 35.2,
       "ttm_eps": 319.54,
-      "market_cap_cr": 9946.0,
+      "market_cap_cr": 9973.0,
       "roce": 23.5,
       "roe": 17.4,
       "dividend_yield": 1.01,
@@ -1262,26 +1262,26 @@
         {
           "name": "Tata Inv.Corpn.",
           "price": 577.25,
-          "pe": 73.23,
-          "market_cap": 29193.51
+          "pe": 73.26,
+          "market_cap": 29206.13
         },
         {
           "name": "Chola Financial",
           "price": 1424.4,
-          "pe": 9.71,
-          "market_cap": 26800.58
+          "pe": 9.69,
+          "market_cap": 26747.02
         },
         {
           "name": "TVS Holdings",
           "price": 12872.0,
-          "pe": 11.86,
-          "market_cap": 25855.78
+          "pe": 11.95,
+          "market_cap": 26042.76
         },
         {
           "name": "Mah. Scooters",
           "price": 11855.0,
-          "pe": 44.27,
-          "market_cap": 13490.4
+          "pe": 44.46,
+          "market_cap": 13548.57
         }
       ]
     },
@@ -1300,7 +1300,7 @@
       "pe": 11.45,
       "sector_pe": 13.17,
       "ttm_eps": 23.62,
-      "market_cap_cr": 2078.0,
+      "market_cap_cr": 2079.0,
       "roce": 33.9,
       "roe": 38.1,
       "dividend_yield": null,

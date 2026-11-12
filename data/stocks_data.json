@@ -1,27 +1,27 @@
 {
-  "last_updated": "2026-11-11 17:33:34 UTC",
-  "last_updated_iso": "2026-11-11T17:33:34.120959",
+  "last_updated": "2026-11-12 17:48:13 UTC",
+  "last_updated_iso": "2026-11-12T17:48:13.775014",
   "indices": {
     "NIFTY_50": {
       "symbol": "^NSEI",
-      "price": 25255.05,
-      "previous_close": 25044.65,
-      "change": 210.4,
-      "change_percent": 0.84,
-      "day_high": 25424.35,
-      "day_low": 25095.35,
-      "timestamp": 1794391288,
+      "price": 25299.35,
+      "previous_close": 25044.7,
+      "change": 254.65,
+      "change_percent": 1.02,
+      "day_high": 25384.8,
+      "day_low": 25142.95,
+      "timestamp": 1794477685,
       "name": "NIFTY 50"
     },
     "DOW_JONES": {
       "symbol": "^DJI",
-      "price": 52358.68,
-      "previous_close": 52231.89,
-      "change": 126.79,
-      "change_percent": 0.24,
-      "day_high": 52376.39,
-      "day_low": 52055.14,
-      "timestamp": 1794418382,
+      "price": 52654.04,
+      "previous_close": 52486.49,
+      "change": 167.55,
+      "change_percent": 0.32,
+      "day_high": 52751.22,
+      "day_low": 52363.55,
+      "timestamp": 1794505661,
       "name": "DOW JONES"
     }
   },
@@ -35,14 +35,14 @@
       "sector": "Capital Goods",
       "broad_sector": "Industrials",
       "industry": "Castings &amp; Forgings",
-      "current_price": 382.1,
-      "previous_close": 374.9,
-      "change": 7.2,
-      "change_percent": 1.92,
-      "pe": 42.69,
-      "sector_pe": 21.03,
+      "current_price": 382.0,
+      "previous_close": 382.1,
+      "change": -0.1,
+      "change_percent": -0.03,
+      "pe": 42.68,
+      "sector_pe": 21.54,
       "ttm_eps": 8.95,
-      "market_cap_cr": 3872.0,
+      "market_cap_cr": 3866.0,
       "roce": 32.3,
       "roe": 24.0,
       "dividend_yield": 0.45,
@@ -74,8 +74,8 @@
         349.8,
         377.2,
         348.05,
-        374.9,
-        382.1
+        382.1,
+        382.0
       ],
       "quarterly_profits": [
         {
@@ -315,39 +315,39 @@
       "peers": [
         {
           "name": "Mayur Uniquoters",
-          "price": 734.2,
-          "pe": 14.26,
-          "market_cap": 3198.22
+          "price": 730.4,
+          "pe": 14.14,
+          "market_cap": 3172.27
         },
         {
           "name": "Bhartiya Intl.",
-          "price": 1167.4,
-          "pe": 61.14,
-          "market_cap": 1565.67
+          "price": 1181.0,
+          "pe": 61.91,
+          "market_cap": 1585.6
         },
         {
           "name": "Kothari Indl",
-          "price": 134.38,
+          "price": 130.8,
           "pe": null,
-          "market_cap": 1443.15
+          "market_cap": 1414.3
         },
         {
           "name": "Mirza Internatio",
-          "price": 29.01,
+          "price": 29.02,
           "pe": null,
-          "market_cap": 395.08
+          "market_cap": 402.45
         },
         {
           "name": "Superhouse Ltd",
-          "price": 148.81,
-          "pe": 21.03,
-          "market_cap": 164.06
+          "price": 151.66,
+          "pe": 21.54,
+          "market_cap": 168.0
         },
         {
           "name": "Anka India",
-          "price": 18.5,
+          "price": 19.0,
           "pe": null,
-          "market_cap": 95.36
+          "market_cap": 97.93
         }
       ]
     },
@@ -359,14 +359,14 @@
       "sector": "Chemicals",
       "broad_sector": "Commodities",
       "industry": "Specialty Chemicals",
-      "current_price": 255.13,
-      "previous_close": 249.92,
-      "change": 5.21,
-      "change_percent": 2.08,
-      "pe": 12.37,
-      "sector_pe": 14.23,
+      "current_price": 252.73,
+      "previous_close": 255.13,
+      "change": -2.4,
+      "change_percent": -0.94,
+      "pe": 12.26,
+      "sector_pe": 14.1,
       "ttm_eps": 20.62,
-      "market_cap_cr": 2643.0,
+      "market_cap_cr": 2628.0,
       "roce": 31.0,
       "roe": 21.8,
       "dividend_yield": 0.69,
@@ -397,8 +397,8 @@
         276.5,
         249.5,
         242.24,
-        249.92,
-        255.13
+        255.13,
+        252.73
       ],
       "quarterly_profits": [
         {
@@ -645,17 +645,17 @@
       "sector": "Automobile and Auto Components",
       "broad_sector": "Consumer Discretionary",
       "industry": "Auto Components &amp; Equipments",
-      "current_price": 385.95,
-      "previous_close": 385.05,
-      "change": 0.9,
-      "change_percent": 0.23,
-      "pe": 31.38,
-      "sector_pe": 47.24,
+      "current_price": 380.0,
+      "previous_close": 385.95,
+      "change": -5.95,
+      "change_percent": -1.54,
+      "pe": 30.89,
+      "sector_pe": 46.78,
       "ttm_eps": 12.3,
-      "market_cap_cr": 32801.0,
+      "market_cap_cr": 32317.0,
       "roce": 8.54,
       "roe": 5.97,
-      "dividend_yield": 0.52,
+      "dividend_yield": 0.53,
       "book_value": 163.0,
       "high_52w": 496.4,
       "low_52w": 287.0,
@@ -684,8 +684,8 @@
         440.25,
         412.6,
         335.5,
-        385.05,
-        385.95
+        385.95,
+        380.0
       ],
       "quarterly_profits": [
         {
@@ -925,39 +925,39 @@
       "peers": [
         {
           "name": "Sun Pharma.Inds.",
-          "price": 1902.3,
-          "pe": 130.73,
-          "market_cap": 456305.7
+          "price": 1885.0,
+          "pe": 130.0,
+          "market_cap": 453777.45
         },
         {
           "name": "Divi&#x27;s Lab.",
-          "price": 11367.0,
-          "pe": 88.27,
-          "market_cap": 301640.77
+          "price": 11485.0,
+          "pe": 89.63,
+          "market_cap": 306289.13
         },
         {
           "name": "Torrent Pharma.",
-          "price": 4761.0,
-          "pe": 83.5,
-          "market_cap": 181282.77
+          "price": 4727.2,
+          "pe": 82.79,
+          "market_cap": 179731.99
         },
         {
           "name": "Laurus Labs",
-          "price": 2429.0,
-          "pe": 98.11,
-          "market_cap": 131456.11
+          "price": 2400.0,
+          "pe": 96.54,
+          "market_cap": 129355.41
         },
         {
           "name": "Zydus Lifesci.",
-          "price": 1199.5,
-          "pe": 26.47,
-          "market_cap": 119931.7
+          "price": 1206.0,
+          "pe": 26.76,
+          "market_cap": 121249.14
         },
         {
           "name": "Dr Reddy&#x27;s Labs",
-          "price": 1377.0,
-          "pe": 41.08,
-          "market_cap": 115016.89
+          "price": 1386.6,
+          "pe": 41.4,
+          "market_cap": 115902.92
         }
       ]
     },
@@ -969,17 +969,17 @@
       "sector": "Capital Goods",
       "broad_sector": "Industrials",
       "industry": "Heavy Electrical Equipment",
-      "current_price": 9792.0,
-      "previous_close": 9858.0,
-      "change": -66.0,
-      "change_percent": -0.67,
-      "pe": 30.64,
-      "sector_pe": 35.44,
+      "current_price": 9722.0,
+      "previous_close": 9792.0,
+      "change": -70.0,
+      "change_percent": -0.71,
+      "pe": 30.42,
+      "sector_pe": 35.85,
       "ttm_eps": 319.54,
-      "market_cap_cr": 9914.0,
+      "market_cap_cr": 9830.0,
       "roce": 23.5,
       "roe": 17.4,
-      "dividend_yield": 1.02,
+      "dividend_yield": 1.03,
       "book_value": 1845.0,
       "high_52w": 12863.0,
       "low_52w": 6666.0,
@@ -1008,8 +1008,8 @@
         10908.5,
         10500.0,
         10351.0,
-        9858.0,
-        9792.0
+        9792.0,
+        9722.0
       ],
       "quarterly_profits": [
         {
@@ -1249,39 +1249,39 @@
       "peers": [
         {
           "name": "Jio Financial",
-          "price": 230.6,
-          "pe": 92.34,
-          "market_cap": 158067.81
+          "price": 231.2,
+          "pe": 92.66,
+          "market_cap": 158616.6
         },
         {
           "name": "Aditya Birla Cap",
-          "price": 396.0,
-          "pe": 24.36,
-          "market_cap": 108579.61
+          "price": 419.5,
+          "pe": 25.84,
+          "market_cap": 115156.39
         },
         {
           "name": "Tata Inv.Corpn.",
-          "price": 591.0,
-          "pe": 75.03,
-          "market_cap": 29909.59
+          "price": 588.7,
+          "pe": 74.68,
+          "market_cap": 29770.34
         },
         {
           "name": "Chola Financial",
-          "price": 1446.8,
-          "pe": 9.83,
-          "market_cap": 27151.44
+          "price": 1462.4,
+          "pe": 9.96,
+          "market_cap": 27493.83
         },
         {
           "name": "TVS Holdings",
-          "price": 13015.0,
-          "pe": 12.13,
-          "market_cap": 26428.17
+          "price": 12791.0,
+          "pe": 11.76,
+          "market_cap": 25641.19
         },
         {
           "name": "Mah. Scooters",
-          "price": 12031.0,
-          "pe": 44.45,
-          "market_cap": 13543.67
+          "price": 12032.0,
+          "pe": 45.18,
+          "market_cap": 13766.47
         }
       ]
     },
@@ -1293,14 +1293,14 @@
       "sector": "Consumer Durables",
       "broad_sector": "Consumer Discretionary",
       "industry": "Gems, Jewellery And Watches",
-      "current_price": 273.15,
-      "previous_close": 270.5,
-      "change": 2.65,
-      "change_percent": 0.98,
-      "pe": 11.56,
-      "sector_pe": 13.29,
+      "current_price": 271.95,
+      "previous_close": 273.15,
+      "change": -1.2,
+      "change_percent": -0.44,
+      "pe": 11.51,
+      "sector_pe": 13.24,
       "ttm_eps": 23.62,
-      "market_cap_cr": 2099.0,
+      "market_cap_cr": 2088.0,
       "roce": 33.9,
       "roe": 38.1,
       "dividend_yield": null,
@@ -1325,8 +1325,8 @@
         246.85,
         308.9,
         293.9,
-        270.5,
-        273.15
+        273.15,
+        271.95
       ],
       "quarterly_profits": [
         {
@@ -1553,7 +1553,7 @@
       "pe": 46.76,
       "sector_pe": 53.77,
       "ttm_eps": 10.71,
-      "market_cap_cr": 836.0,
+      "market_cap_cr": 824.0,
       "roce": 40.2,
       "roe": 34.3,
       "dividend_yield": null,
@@ -1586,7 +1586,7 @@
         416.65,
         403.6,
         373.0,
-        393.0
+        397.55
       ],
       "quarterly_profits": [
         {
@@ -1797,14 +1797,14 @@
       "sector": "Information Technology",
       "broad_sector": "Information Technology",
       "industry": "IT Enabled Services",
-      "current_price": 295.95,
-      "previous_close": 281.9,
-      "change": 14.05,
-      "change_percent": 4.98,
-      "pe": 19.69,
-      "sector_pe": 22.64,
+      "current_price": 294.65,
+      "previous_close": 295.95,
+      "change": -1.3,
+      "change_percent": -0.44,
+      "pe": 19.6,
+      "sector_pe": 22.54,
       "ttm_eps": 15.03,
-      "market_cap_cr": 336.0,
+      "market_cap_cr": 334.0,
       "roce": 9.6,
       "roe": 6.89,
       "dividend_yield": null,
@@ -1836,8 +1836,8 @@
         344.9,
         320.35,
         291.0,
-        281.9,
-        295.95
+        295.95,
+        294.65
       ],
       "quarterly_profits": [
         {

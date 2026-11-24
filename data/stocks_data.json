@@ -1,6 +1,6 @@
 {
-  "last_updated": "2026-11-23 21:48:51 UTC",
-  "last_updated_iso": "2026-11-23T21:48:51.963575",
+  "last_updated": "2026-11-24 20:26:22 UTC",
+  "last_updated_iso": "2026-11-24T20:26:22.014465",
   "indices": {
     "NIFTY_50": {
       "symbol": "^NSEI",
@@ -15,13 +15,13 @@
     },
     "DOW_JONES": {
       "symbol": "^DJI",
-      "price": 49595.31,
-      "previous_close": 48147.33,
-      "change": 1447.98,
-      "change_percent": 3.01,
-      "day_high": 49810.26,
-      "day_low": 49033.31,
-      "timestamp": 1795470159,
+      "price": 49901.38,
+      "previous_close": 49595.31,
+      "change": 306.07,
+      "change_percent": 0.62,
+      "day_high": 50075.12,
+      "day_low": 49294.49,
+      "timestamp": 1795551949,
       "name": "DOW JONES"
     }
   },
@@ -1558,8 +1558,8 @@
       "roe": 34.3,
       "dividend_yield": null,
       "book_value": 46.9,
-      "high_52w": 848.9,
-      "low_52w": 306.85,
+      "high_52w": 835.0,
+      "low_52w": 291.55,
       "high_5y": 1697.0,
       "low_5y": 306.85,
       "sparkline_24m": [
@@ -1833,12 +1833,12 @@
       "sector": "Information Technology",
       "broad_sector": "Information Technology",
       "industry": "IT Enabled Services",
-      "current_price": 223.0,
+      "current_price": 222.0,
       "previous_close": 226.4,
-      "change": -3.4,
-      "change_percent": -1.5,
-      "pe": 14.84,
-      "sector_pe": 17.07,
+      "change": -4.4,
+      "change_percent": -1.94,
+      "pe": 14.77,
+      "sector_pe": 16.99,
       "ttm_eps": 15.03,
       "market_cap_cr": 253.0,
       "roce": 9.6,
@@ -1873,7 +1873,7 @@
         320.35,
         291.0,
         226.4,
-        223.0
+        222.0
       ],
       "quarterly_profits": [
         {

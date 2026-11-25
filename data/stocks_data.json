@@ -1,27 +1,27 @@
 {
-  "last_updated": "2026-11-24 20:26:22 UTC",
-  "last_updated_iso": "2026-11-24T20:26:22.014465",
+  "last_updated": "2026-11-25 19:40:44 UTC",
+  "last_updated_iso": "2026-11-25T19:40:44.919788",
   "indices": {
     "NIFTY_50": {
       "symbol": "^NSEI",
-      "price": 25349.65,
-      "previous_close": 25800.6,
-      "change": -450.95,
-      "change_percent": -1.75,
-      "day_high": 25992.6,
-      "day_low": 25343.85,
-      "timestamp": 1795428079,
+      "price": 25819.25,
+      "previous_close": 25349.65,
+      "change": 469.6,
+      "change_percent": 1.85,
+      "day_high": 25951.65,
+      "day_low": 25619.0,
+      "timestamp": 1795600889,
       "name": "NIFTY 50"
     },
     "DOW_JONES": {
       "symbol": "^DJI",
-      "price": 49901.38,
-      "previous_close": 49595.31,
-      "change": 306.07,
-      "change_percent": 0.62,
-      "day_high": 50075.12,
-      "day_low": 49294.49,
-      "timestamp": 1795551949,
+      "price": 50326.0,
+      "previous_close": 50018.7,
+      "change": 307.3,
+      "change_percent": 0.61,
+      "day_high": 50395.24,
+      "day_low": 48913.74,
+      "timestamp": 1795635611,
       "name": "DOW JONES"
     }
   },
@@ -32,20 +32,20 @@
       "screener_symbol": "STEELCAS",
       "yahoo_symbol": "STEELCAS.NS",
       "name": "Steelcast Ltd",
-      "sector": "Capital Goods",
-      "broad_sector": "Industrials",
+      "sector": "Castings &amp; Forgings",
+      "broad_sector": null,
       "industry": "Castings &amp; Forgings",
-      "current_price": 365.4,
-      "previous_close": 370.1,
-      "change": -4.7,
-      "change_percent": -1.27,
-      "pe": 40.6,
-      "sector_pe": 16.53,
+      "current_price": 356.7,
+      "previous_close": 365.4,
+      "change": -8.7,
+      "change_percent": -2.38,
+      "pe": 39.63,
+      "sector_pe": 45.57,
       "ttm_eps": 9.0,
-      "market_cap_cr": 3698.0,
+      "market_cap_cr": 3615.0,
       "roce": 32.3,
       "roe": 24.0,
-      "dividend_yield": 0.47,
+      "dividend_yield": 0.48,
       "book_value": 42.7,
       "high_52w": 399.0,
       "low_52w": 176.02,
@@ -74,8 +74,8 @@
         349.8,
         377.2,
         348.05,
-        370.1,
-        365.4
+        365.4,
+        356.7
       ],
       "quarterly_profits": [
         {
@@ -312,64 +312,27 @@
       "latest_fiis": 0.49,
       "latest_diis": 2.75,
       "latest_public": 51.78,
-      "peers": [
-        {
-          "name": "Mayur Uniquoters",
-          "price": 694.0,
-          "pe": 13.45,
-          "market_cap": 3015.61
-        },
-        {
-          "name": "Bhartiya Intl.",
-          "price": 972.0,
-          "pe": 34.31,
-          "market_cap": 1303.49
-        },
-        {
-          "name": "Kothari Indl",
-          "price": 115.2,
-          "pe": null,
-          "market_cap": 1244.41
-        },
-        {
-          "name": "Mirza Internatio",
-          "price": 26.21,
-          "pe": null,
-          "market_cap": 362.23
-        },
-        {
-          "name": "Superhouse Ltd",
-          "price": 153.05,
-          "pe": 16.53,
-          "market_cap": 168.74
-        },
-        {
-          "name": "Zenith Exports",
-          "price": 178.0,
-          "pe": null,
-          "market_cap": 96.12
-        }
-      ]
+      "peers": []
     },
     {
       "symbol": "DDevpastik",
       "screener_symbol": "DDEVPLSTIK",
       "yahoo_symbol": "DDEVPLSTIK.NS",
       "name": "DDev Plastiks Industries Ltd",
-      "sector": "Chemicals",
-      "broad_sector": "Commodities",
+      "sector": "Specialty Chemicals",
+      "broad_sector": null,
       "industry": "Specialty Chemicals",
-      "current_price": 232.16,
-      "previous_close": 240.22,
-      "change": -8.06,
-      "change_percent": -3.36,
-      "pe": 11.01,
-      "sector_pe": 12.66,
+      "current_price": 231.5,
+      "previous_close": 232.16,
+      "change": -0.66,
+      "change_percent": -0.28,
+      "pe": 10.98,
+      "sector_pe": 12.63,
       "ttm_eps": 21.09,
-      "market_cap_cr": 2402.0,
+      "market_cap_cr": 2392.0,
       "roce": 31.0,
       "roe": 21.8,
-      "dividend_yield": 0.75,
+      "dividend_yield": 0.76,
       "book_value": 108.0,
       "high_52w": 317.3,
       "low_52w": 185.15,
@@ -397,8 +360,8 @@
         276.5,
         249.5,
         242.24,
-        240.22,
-        232.16
+        232.16,
+        231.5
       ],
       "quarterly_profits": [
         {
@@ -642,20 +605,20 @@
       "screener_symbol": "EXIDEIND",
       "yahoo_symbol": "EXIDEIND.NS",
       "name": "Exide Industries Ltd",
-      "sector": "Automobile and Auto Components",
-      "broad_sector": "Consumer Discretionary",
+      "sector": "Auto Components &amp; Equipments",
+      "broad_sector": null,
       "industry": "Auto Components &amp; Equipments",
-      "current_price": 401.85,
-      "previous_close": 408.55,
-      "change": -6.7,
-      "change_percent": -1.64,
-      "pe": 32.67,
-      "sector_pe": 46.32,
+      "current_price": 395.9,
+      "previous_close": 401.85,
+      "change": -5.95,
+      "change_percent": -1.48,
+      "pe": 32.19,
+      "sector_pe": 37.02,
       "ttm_eps": 12.3,
-      "market_cap_cr": 34157.0,
+      "market_cap_cr": 33635.0,
       "roce": 8.54,
       "roe": 5.97,
-      "dividend_yield": 0.5,
+      "dividend_yield": 0.51,
       "book_value": 163.0,
       "high_52w": 496.4,
       "low_52w": 287.0,
@@ -684,8 +647,8 @@
         440.25,
         412.6,
         335.5,
-        408.55,
-        401.85
+        401.85,
+        395.9
       ],
       "quarterly_profits": [
         {
@@ -922,64 +885,27 @@
       "latest_fiis": 13.21,
       "latest_diis": 17.57,
       "latest_public": 23.22,
-      "peers": [
-        {
-          "name": "Sun Pharma.Inds.",
-          "price": 1860.0,
-          "pe": 127.85,
-          "market_cap": 446276.3
-        },
-        {
-          "name": "Divi&#x27;s Lab.",
-          "price": 11203.0,
-          "pe": 87.03,
-          "market_cap": 297404.45
-        },
-        {
-          "name": "Torrent Pharma.",
-          "price": 4763.7,
-          "pe": 83.46,
-          "market_cap": 181195.84
-        },
-        {
-          "name": "Laurus Labs",
-          "price": 2370.7,
-          "pe": 95.6,
-          "market_cap": 128091.82
-        },
-        {
-          "name": "Zydus Lifesci.",
-          "price": 1199.5,
-          "pe": 26.41,
-          "market_cap": 119650.58
-        },
-        {
-          "name": "Dr Reddy&#x27;s Labs",
-          "price": 1380.1,
-          "pe": 41.17,
-          "market_cap": 115275.83
-        }
-      ]
+      "peers": []
     },
     {
       "symbol": "Voltamp",
       "screener_symbol": "VOLTAMP",
       "yahoo_symbol": "VOLTAMP.NS",
       "name": "Voltamp Transformers Ltd",
-      "sector": "Capital Goods",
-      "broad_sector": "Industrials",
+      "sector": "Heavy Electrical Equipment",
+      "broad_sector": null,
       "industry": "Heavy Electrical Equipment",
-      "current_price": 9587.0,
-      "previous_close": 9726.0,
-      "change": -139.0,
-      "change_percent": -1.43,
-      "pe": 30.0,
-      "sector_pe": 36.22,
+      "current_price": 9676.0,
+      "previous_close": 9587.0,
+      "change": 89.0,
+      "change_percent": 0.93,
+      "pe": 30.28,
+      "sector_pe": 34.82,
       "ttm_eps": 319.54,
-      "market_cap_cr": 9699.0,
+      "market_cap_cr": 9784.0,
       "roce": 23.5,
       "roe": 17.4,
-      "dividend_yield": 1.04,
+      "dividend_yield": 1.03,
       "book_value": 1845.0,
       "high_52w": 12863.0,
       "low_52w": 6666.0,
@@ -1008,8 +934,8 @@
         10908.5,
         10500.0,
         10351.0,
-        9726.0,
-        9587.0
+        9587.0,
+        9676.0
       ],
       "quarterly_profits": [
         {
@@ -1246,61 +1172,24 @@
       "latest_fiis": 20.48,
       "latest_diis": 35.48,
       "latest_public": 13.99,
-      "peers": [
-        {
-          "name": "Jio Financial",
-          "price": 219.7,
-          "pe": 87.95,
-          "market_cap": 150563.52
-        },
-        {
-          "name": "Aditya Birla Cap",
-          "price": 415.8,
-          "pe": 25.55,
-          "market_cap": 113890.14
-        },
-        {
-          "name": "Tata Inv.Corpn.",
-          "price": 586.95,
-          "pe": 74.49,
-          "market_cap": 29696.91
-        },
-        {
-          "name": "TVS Holdings",
-          "price": 13367.0,
-          "pe": 12.41,
-          "market_cap": 27044.25
-        },
-        {
-          "name": "Chola Financial",
-          "price": 1357.1,
-          "pe": 9.23,
-          "market_cap": 25483.28
-        },
-        {
-          "name": "Mah. Scooters",
-          "price": 12502.0,
-          "pe": 46.89,
-          "market_cap": 14288.0
-        }
-      ]
+      "peers": []
     },
     {
       "symbol": "Shantigold",
       "screener_symbol": "SHANTIGOLD",
       "yahoo_symbol": "SHANTIGOLD.BO",
       "name": "Shanti Gold International Ltd",
-      "sector": "Consumer Durables",
-      "broad_sector": "Consumer Discretionary",
+      "sector": "Gems, Jewellery And Watches",
+      "broad_sector": null,
       "industry": "Gems, Jewellery And Watches",
-      "current_price": 213.25,
-      "previous_close": 226.8,
-      "change": -13.55,
-      "change_percent": -5.97,
-      "pe": 9.03,
-      "sector_pe": 10.38,
+      "current_price": 208.1,
+      "previous_close": 213.25,
+      "change": -5.15,
+      "change_percent": -2.42,
+      "pe": 8.81,
+      "sector_pe": 10.13,
       "ttm_eps": 23.62,
-      "market_cap_cr": 1633.0,
+      "market_cap_cr": 1594.0,
       "roce": 33.9,
       "roe": 38.1,
       "dividend_yield": null,
@@ -1325,8 +1214,8 @@
         246.85,
         308.9,
         293.9,
-        226.8,
-        213.25
+        213.25,
+        208.1
       ],
       "quarterly_profits": [
         {
@@ -1543,8 +1432,8 @@
       "screener_symbol": "TAC",
       "yahoo_symbol": "TAC.NS",
       "name": "TAC Security (TAC Infosec Ltd)",
-      "sector": "Information Technology",
-      "broad_sector": "Information Technology",
+      "sector": "Computers - Software &amp; Consulting",
+      "broad_sector": null,
       "industry": "Computers - Software &amp; Consulting",
       "current_price": 500.75,
       "previous_close": 509.0,
@@ -1553,7 +1442,7 @@
       "pe": 36.1,
       "sector_pe": 41.52,
       "ttm_eps": 13.87,
-      "market_cap_cr": 671.0,
+      "market_cap_cr": 637.0,
       "roce": 40.2,
       "roe": 34.3,
       "dividend_yield": null,
@@ -1561,7 +1450,7 @@
       "high_52w": 835.0,
       "low_52w": 291.55,
       "high_5y": 1697.0,
-      "low_5y": 306.85,
+      "low_5y": 291.55,
       "sparkline_24m": [
         1329.25,
         1480.8,
@@ -1586,7 +1475,7 @@
         416.65,
         403.6,
         373.0,
-        306.85
+        318.95
       ],
       "quarterly_profits": [
         {
@@ -1830,23 +1719,23 @@
       "screener_symbol": "544189",
       "yahoo_symbol": "SATTRIX.BO",
       "name": "Sattrix Information Security Ltd",
-      "sector": "Information Technology",
-      "broad_sector": "Information Technology",
+      "sector": "IT Enabled Services",
+      "broad_sector": null,
       "industry": "IT Enabled Services",
-      "current_price": 222.0,
-      "previous_close": 226.4,
-      "change": -4.4,
-      "change_percent": -1.94,
-      "pe": 14.77,
-      "sector_pe": 16.99,
+      "current_price": 211.85,
+      "previous_close": 223.0,
+      "change": -11.15,
+      "change_percent": -5.0,
+      "pe": 14.1,
+      "sector_pe": 16.21,
       "ttm_eps": 15.03,
-      "market_cap_cr": 253.0,
+      "market_cap_cr": 240.0,
       "roce": 9.6,
       "roe": 6.89,
       "dividend_yield": null,
       "book_value": 180.0,
       "high_52w": 451.0,
-      "low_52w": 215.1,
+      "low_52w": 211.85,
       "high_5y": 451.0,
       "low_5y": 77.95,
       "sparkline_24m": [
@@ -1872,8 +1761,8 @@
         344.9,
         320.35,
         291.0,
-        226.4,
-        222.0
+        223.0,
+        211.85
       ],
       "quarterly_profits": [
         {
